@@ -933,40 +933,57 @@
                         <p class="text-sm mt-2">💡 O valor da hora é calculado automaticamente: Salário Mínimo ÷ 220 horas mensais.</p>
                     </div>
                 </div>
+                
+                <!-- Aba Precificação Atualizada -->
+<div id="tabPrecificacao" class="tab-content hidden">
+    <div class="card">
+        <div class="card-title"><span class="icon">💰</span> Precificação e Orçamento</div>
+        
+        <!-- Resumo de Custos -->
+        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+            <span class="text-sm">Subtotal Materiais:</span>
+            <span style="font-weight:700;" id="resumoSubMateriais">R$ 0,00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+            <span class="text-sm">Subtotal Mão de Obra:</span>
+            <span style="font-weight:700;" id="resumoSubMaoObra">R$ 0,00</span>
+        </div>
+        
+        <!-- Custos Indiretos / Operacionais -->
+        <div class="input-row mt-2">
+            <div class="input-group">
+                <label class="input-label">Custos Fixos / Hora (R$)</label>
+                <input type="number" class="input-field" id="inputCustosFixosHora" value="5.00" onchange="calcularOrcamentoTotal()">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Margem de Lucro (%)</label>
+                <input type="number" class="input-field" id="inputMargemLucro" value="30" onchange="calcularOrcamentoTotal()">
+            </div>
+        </div>
 
-                <!-- Aba Precificação -->
-                <div id="tabPrecificacao" class="tab-content hidden">
-                    <div class="card">
-                        <div class="card-title"><span class="icon">💰</span> Precificação Final</div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span class="text-sm">Subtotal Materiais:</span>
-                            <span style="font-weight:700;" id="resumoSubMateriais">R$ 0,00</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span class="text-sm">Subtotal Mão de Obra:</span>
-                            <span style="font-weight:700;" id="resumoSubMaoObra">R$ 0,00</span>
-                        </div>
-                        <div class="divider"></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span style="font-weight:700;">Custo Total do Serviço:</span>
-                            <span class="highlight-number" id="custoTotalServico">R$ 0,00</span>
-                        </div>
-                        <div class="input-group mt-3">
-                            <label class="input-label">Margem de Lucro (%)</label>
-                            <input type="number" class="input-field" id="inputMargemLucro" value="40" min="0" max="1000" step="1" onchange="atualizarPrecificacao()" placeholder="Ex: 40">
-                        </div>
-                        <div style="background:var(--success-light);padding:16px;border-radius:var(--radius-lg);text-align:center;margin-top:8px;">
-                            <span style="font-size:0.8rem;color:var(--success);font-weight:600;">PREÇO FINAL SUGERIDO</span><br>
-                            <span class="highlight-number highlight-lg" id="precoFinal" style="color:var(--success);">R$ 0,00</span>
-                        </div>
-                        <p class="text-sm mt-2">💡 Preço Final = Custo Total + Margem de Lucro. Ex: custo de R$150 + 40% = R$210.</p>
-                        <div class="input-group mt-2">
-                            <label class="input-label">Nome do Cliente (opcional)</label>
-                            <input type="text" class="input-field" id="inputNomeCliente" placeholder="Ex: Maria Silva">
-                        </div>
-                    </div>
-                </div>
+        <div class="divider"></div>
+        
+        <!-- Custos de Produção Real vs Preço Final -->
+        <div style="display:flex;justify-content:space-between;padding:6px 0;">
+            <span class="text-sm" style="color:var(--danger);">Custo de Produção Total:</span>
+            <span style="font-weight:700;color:var(--danger);" id="custoTotalServico">R$ 0,00</span>
+        </div>
+        <div class="text-center mt-3" style="background:var(--success-light);padding:16px;border-radius:var(--radius);">
+            <span style="font-size:0.85rem;color:var(--success);font-weight:700;">SUGESTÃO DE PREÇO DE VENDA</span><br>
+            <span class="highlight-number highlight-lg" id="precoVendaFinal" style="color:var(--success);">R$ 0,00</span>
+        </div>
 
+        <!-- Inputs de Cadastro de Cliente para Lançamento -->
+        <div class="input-group mt-3">
+            <label class="input-label">Nome do Cliente / Projeto</label>
+            <input type="text" class="input-field" id="nomeClienteOrcamento" placeholder="Ex: Armário Cozinha - João">
+        </div>
+
+        <div class="actions mt-3">
+            <button class="btn btn-success" onclick="salvarELancarOrcamento()" style="width: 100%;">💾 Salvar e Lançar Orçamento</button>
+        </div>
+    </div>
+</div>
                 <!-- Aba Relatório -->
                 <div id="tabRelatorio" class="tab-content hidden">
                     <div class="card" id="cardRelatorio">
@@ -1183,5 +1200,108 @@
             atualizarMaoObra();
         });
     </script>
+    <script>
+    // Inicialização do Histórico e Variáveis Globais
+    let historicoOrcamentos = JSON.parse(localStorage.getItem('orcaja_historico')) || [];
+
+    // Formata valores para moeda brasileira
+    function formatarMoeda(valor) {
+        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    // Executa as fórmulas de Mão de Obra baseada nas 220h que calculamos
+    function atualizarMaoObra() {
+        const salarioMinimoInput = document.getElementById('inputSalarioMinimo').value.replace('.', '').replace(',', '.');
+        const salarioMinimo = parseFloat(salarioMinimoInput) || 1621.00; // Valor atualizado solicitado
+        const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+
+        // Fórmula base: Divisor de 220 horas mensais
+        const valorHora = salarioMinimo / 220;
+        document.getElementById('inputValorHora').value = formatarMoeda(valorHora);
+
+        const totalMaoObra = valorHora * horasTrabalhadas;
+        document.getElementById('totalMaoObra').innerText = formatarMoeda(totalMaoObra);
+        document.getElementById('resumoSubMaoObra').innerText = formatarMoeda(totalMaoObra);
+
+        calcularOrcamentoTotal();
+    }
+
+    // Calcula de forma eficiente todos os custos de produção e preço final
+    function calcularOrcamentoTotal() {
+        // Recupera valores das abas de materiais (Exemplo simplificado de soma caso use inputs dinâmicos)
+        let subtotalMateriais = 0; 
+        // Se houver linhas na tabela de materiais, você pode varrê-las aqui. Vamos assumir um valor base ou recuperar do DOM.
+        const itensMateriais = document.querySelectorAll('#tbodyMateriais tr');
+        itensMateriais.forEach(linha => {
+            const totalLinha = parseFloat(linha.querySelector('.total-linha')?.dataset.valor) || 0;
+            subtotalMateriais += totalLinha;
+        });
+        document.getElementById('resumoSubMateriais').innerText = formatarMoeda(subtotalMateriais);
+
+        // Recupera Mão de obra
+        const salarioMinimo = parseFloat(document.getElementById('inputSalarioMinimo').value.replace('.', '').replace(',', '.')) || 1621.00;
+        const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+        const totalMaoObra = (salarioMinimo / 220) * horasTrabalhadas;
+
+        // Custos Fixos Operacionais por hora
+        const custoFixoHora = parseFloat(document.getElementById('inputCustosFixosHora').value) || 0;
+        const totalCustosFixos = custoFixoHora * horasTrabalhadas;
+
+        // FÓRMULA 1: Custo de Produção Real
+        const custoProducaoTotal = subtotalMateriais + totalMaoObra + totalCustosFixos;
+        document.getElementById('custoTotalServico').innerText = formatarMoeda(custoProducaoTotal);
+
+        // FÓRMULA 2: Precificação com Margem de Lucro (Markup)
+        const margemLucro = parseFloat(document.getElementById('inputMargemLucro').value) || 0;
+        const precoVenda = custoProducaoTotal / (1 - (margemLucro / 100));
+
+        document.getElementById('precoVendaFinal').innerText = formatarMoeda(precoVenda);
+        
+        return { custoProducaoTotal, precoVenda };
+    }
+
+    // Função para lançar valores no Histórico (LocalStorage)
+    function salvarELancarOrcamento() {
+        const cliente = document.getElementById('nomeClienteOrcamento').value.trim();
+        if (!cliente) {
+            exibirToast("⚠️ Digite o nome do cliente ou projeto!");
+            return;
+        }
+
+        const dadosCalculados = calcularOrcamentoTotal();
+
+        const novoOrcamento = {
+            id: Date.now(),
+            cliente: cliente,
+            data: new Date().toLocaleDateString('pt-BR'),
+            custo: dadosCalculados.custoProducaoTotal,
+            total: dadosCalculados.precoVenda
+        };
+
+        historicoOrcamentos.unshift(novoOrcamento);
+        localStorage.setItem('orcaja_historico', JSON.stringify(historicoOrcamentos));
+        
+        exibirToast("🚀 Orçamento lançado com sucesso!");
+        document.getElementById('nomeClienteOrcamento').value = "";
+        voltarHome();
+        renderizarResumoHome();
+    }
+
+    function exibirToast(mensagem) {
+        // Lógica simples para exibir o toast do seu HTML
+        console.log(mensagem); // Substitua pela ativação da classe do seu .toast
+    }
+
+    // Gatilhos de navegação do SPA que você já possui estruturado
+    function voltarHome() {
+        document.getElementById('viewBudget').classList.add('hidden');
+        document.getElementById('viewHome').classList.remove('hidden');
+    }
+
+    // Executar cálculo inicial ao carregar a página
+    window.onload = () => {
+        atualizarMaoObra();
+    };
+</script>
 </body>
 </html>
