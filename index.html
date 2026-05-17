@@ -906,7 +906,7 @@
                         <button class="btn btn-outline btn-sm mt-3" onclick="adicionarMaterial()" style="width:100%;">
                             ＋ Adicionar Material
                         </button>
-                        <p class="text-sm mt-2">💡 Digite o valor de cada item utilizado. O sistema multiplica automaticamente o custo pela quantidade.</p>
+                        <p class="text-sm mt-2">💡 Digite o valor de cada item utilizado. O sistema multiplica automaticamente o custo pela quantidade (aceita valores fracionados).</p>
                     </div>
                 </div>
 
@@ -1124,7 +1124,7 @@
                 row.innerHTML = `
                     <td><input type="text" class="input-field material-input-nome" value="${mat.nome}" placeholder="Material" onchange="atualizarMaterial(${idx}, 'nome', this.value)"></td>
                     <td><input type="text" class="input-field" value="${mat.custo.toFixed(2).replace('.', ',')}" placeholder="0,00" onchange="atualizarMaterial(${idx}, 'custo', this.value)"></td>
-                    <td><input type="number" class="input-field" value="${mat.qtd}" min="1" onchange="atualizarMaterial(${idx}, 'qtd', this.value)"></td>
+                    <td><input type="number" class="input-field" value="${mat.qtd}" min="0" step="0.001" onchange="atualizarMaterial(${idx}, 'qtd', this.value)"></td>
                     <td style="text-align: right; padding-right: 8px;">R$ ${(mat.custo * mat.qtd).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                     <td><button class="btn btn-danger btn-xs" onclick="removerMaterial(${idx})">🗑️</button></td>
                 `;
@@ -1143,7 +1143,7 @@
             } else if (campo === 'custo') {
                 materiais[idx].custo = parseFloat(valor.replace(',', '.')) || 0;
             } else if (campo === 'qtd') {
-                materiais[idx].qtd = parseInt(valor) || 1;
+                materiais[idx].qtd = parseFloat(valor) || 0;
             }
             atualizarTabelaMateriais();
         }
@@ -1157,7 +1157,7 @@
         function atualizarMaoObra() {
             const salarioStr = document.getElementById('inputSalarioMinimo').value.replace(',', '.');
             maoObra.salario = parseFloat(salarioStr) || 1518;
-            maoObra.horas = parseInt(document.getElementById('inputHorasTrabalhadas').value) || 8;
+            maoObra.horas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 8;
 
             const valorHora = maoObra.salario / 220;
             document.getElementById('inputValorHora').value = 'R$ ' + valorHora.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -1208,7 +1208,7 @@
                         <tr><th>Material</th><th>Qtd</th><th>V. Unitário</th><th>Total</th></tr>
                 `;
                 materiais.forEach(mat => {
-                    html += `<tr><td>${mat.nome}</td><td>${mat.qtd}</td><td>R$ ${mat.custo.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${(mat.custo * mat.qtd).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>`;
+                    html += `<tr><td>${mat.nome}</td><td>${mat.qtd.toString().replace('.', ',')}</td><td>R$ ${mat.custo.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${(mat.custo * mat.qtd).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>`;
                 });
                 html += `<tr><td colspan="3"><strong>Subtotal Materiais</strong></td><td><strong>R$ ${totalMateriais.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></td></tr></table><br>`;
             }
@@ -1217,7 +1217,7 @@
                 <strong>Mão de Obra:</strong><br>
                 <table>
                     <tr><th>Descrição</th><th>Horas</th><th>V. Hora</th><th>Total</th></tr>
-                    <tr><td>Serviço</td><td>${maoObra.horas}</td><td>R$ ${valorHora.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>
+                    <tr><td>Serviço</td><td>${maoObra.horas.toString().replace('.', ',')}</td><td>R$ ${valorHora.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>
                 </table><br>
 
                 <strong>Resumo Financeiro:</strong><br>
