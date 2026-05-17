@@ -2,14 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#6366f1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="OrçaJá">
     <meta name="description" content="Calculadora inteligente de orçamentos e precificação de serviços">
     <title>OrçaJá — Calculadora de Orçamentos</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk9yw6dhSsOhIiwKICAic2hvcnRfbmFtZSI6ICJPcsOnYUrDoSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZjhmYWZjIiwKICAidGhlbWVfY29sb3IiOiAiIzYzNjZmMSIsCiAgImljb25zIjogW3sKICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCNGJXeHVjejBpYUhSMGNEb3ZMM2QzZHk1M015NXZjbWN2TWpBd01DOXpkbWNpSUhacFpYZENiM2dxTURnd2ZqMGlJSE4wYjNKNVBTSXhMakFpTHo0S1BITjJaeUJtYVd4c1BTSWlhVzVrYVc1bklpQm1hV3hzWVhSNVBTSXlMakFpTHo0S1BITjJaeUJtYVd4c1BTSWlhVzVrYVc1bklpQm1hV3hzWVhSNVBTSXlMakFpTHo0S1BITjJaeUJtYVd4c1BTSWlhVzVrYVc1bklpQm1hV3hzWVhSNVBTSXlMakFpTHo0S1BITjJaeUJtYVd4c1BTSWlhVzVrYVc1bklpQm1hV3hzWVhSNVBTSXlMakFpTHo0SyIgIF1dfQ==">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk9yw6dhSsOhIiwKICAic2hvcnRfbmFtZSI6ICJPcsOnYUrDoSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAi[...]
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
     <style>
@@ -83,14 +83,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            min-height: 100dvh;
             color: var(--text);
             transition: background 0.3s ease;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            user-select: none;
-            -webkit-user-select: none;
             padding: 0;
+            /* Permite que inputs funcionem corretamente em mobile */
+            -webkit-user-select: text;
+            user-select: text;
         }
 
         /* App Container — simula um celular */
@@ -98,7 +98,6 @@
             width: 100%;
             max-width: 460px;
             height: 100vh;
-            height: 100dvh;
             background: var(--bg);
             display: flex;
             flex-direction: column;
@@ -114,7 +113,6 @@
             }
             .app-container {
                 height: 92vh;
-                height: 92dvh;
                 border-radius: 28px;
                 max-height: 900px;
             }
@@ -438,6 +436,8 @@
             min-width: 55px;
             letter-spacing: -0.2px;
             position: relative;
+            -webkit-user-select: none;
+            user-select: none;
         }
         .nav-item.active {
             color: var(--primary);
@@ -491,6 +491,8 @@
             align-items: center;
             gap: 8px;
             transition: color var(--transition);
+            -webkit-user-select: none;
+            user-select: none;
         }
         .card-title .icon {
             font-size: 1.2rem;
@@ -512,6 +514,8 @@
             letter-spacing: -0.2px;
             font-family: inherit;
             white-space: nowrap;
+            -webkit-user-select: none;
+            user-select: none;
         }
         .btn:active {
             transform: scale(0.96);
@@ -571,6 +575,8 @@
             margin-bottom: 4px;
             letter-spacing: -0.1px;
             transition: color var(--transition);
+            -webkit-user-select: none;
+            user-select: none;
         }
         .input-field {
             width: 100%;
@@ -583,6 +589,8 @@
             font-family: inherit;
             transition: all var(--transition);
             outline: none;
+            -webkit-user-select: text;
+            user-select: text;
         }
         .input-field:focus {
             border-color: var(--primary);
@@ -626,6 +634,8 @@
             border-bottom: 2px solid var(--border);
             white-space: nowrap;
             transition: all var(--transition);
+            -webkit-user-select: none;
+            user-select: none;
         }
         table td {
             padding: 9px 8px;
@@ -671,6 +681,8 @@
             justify-content: center;
             transition: all var(--transition);
             animation: pulse 2.5s infinite;
+            -webkit-user-select: none;
+            user-select: none;
         }
         @keyframes pulse {
             0%,
@@ -998,720 +1010,333 @@
 
         <!-- FAB -->
         <button class="fab" id="fabNovoOrcamento" onclick="novoOrcamento()" title="Novo Orçamento">＋</button>
-
-        <!-- Toast -->
-        <div class="toast" id="toast"></div>
     </div>
 
+    <div id="toast" class="toast"></div>
+
     <script>
-        (function() {
-            // ============ STATE ============
-            const state = {
-                currentView: 'home', // 'home' | 'budget' | 'historico'
-                currentTab: 'materiais',
-                materials: [],
-                labor: { minimumWage: 1518.0, hourlyRate: 6.9, hoursWorked: 8, totalLabor: 55.2 },
-                pricing: { profitMargin: 40, finalPrice: 0, totalCost: 0 },
-                clientName: '',
-                budgetId: null,
-                darkMode: false,
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Impede zoom acidental
+            document.addEventListener('touchmove', function(e) {
+                if (e.scale !== 1) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // Atualiza modo dark se necessário
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.documentElement.classList.add('dark');
+            }
+
+            carregarHistorico();
+        });
+
+        // ============ DARK MODE ============
+        document.getElementById('btnDarkMode').addEventListener('click', function() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+        });
+
+        // ============ NAVEGAÇÃO ============
+        function voltarHome() {
+            document.getElementById('viewHome').classList.remove('hidden');
+            document.getElementById('viewBudget').classList.add('hidden');
+            document.getElementById('viewHistorico').classList.add('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            document.getElementById('btnBack').classList.add('hidden');
+            document.getElementById('fabNovoOrcamento').style.display = 'flex';
+        }
+
+        function novoOrcamento() {
+            materiais = [];
+            maoObra = { salario: 1518, horas: 8 };
+            precificacao = { margem: 40, nomeCliente: '' };
+
+            atualizarTabelaMateriais();
+            atualizarMaoObra();
+            atualizarPrecificacao();
+
+            document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewBudget').classList.remove('hidden');
+            document.getElementById('viewHistorico').classList.add('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            document.getElementById('btnBack').classList.remove('hidden');
+            document.getElementById('fabNovoOrcamento').style.display = 'none';
+
+            mudarTab('materiais');
+        }
+
+        function abrirHistorico() {
+            document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewBudget').classList.add('hidden');
+            document.getElementById('viewHistorico').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            document.getElementById('btnBack').classList.remove('hidden');
+            document.getElementById('fabNovoOrcamento').style.display = 'none';
+        }
+
+        function mudarTab(tab) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            // Show selected tab
+            if (tab === 'materiais') document.getElementById('tabMateriais').classList.remove('hidden');
+            else if (tab === 'maoobra') document.getElementById('tabMaoObra').classList.remove('hidden');
+            else if (tab === 'precificacao') document.getElementById('tabPrecificacao').classList.remove('hidden');
+            else if (tab === 'relatorio') {
+                document.getElementById('tabRelatorio').classList.remove('hidden');
+                atualizarRelatorio();
+            }
+
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-tab') === tab) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // ============ DADOS ============
+        let materiais = [];
+        let maoObra = { salario: 1518, horas: 8 };
+        let precificacao = { margem: 40, nomeCliente: '' };
+
+        // ============ MATERIAIS ============
+        function adicionarMaterial() {
+            materiais.push({ nome: '', custo: 0, qtd: 1 });
+            atualizarTabelaMateriais();
+            // Scroll para o último input
+            setTimeout(() => {
+                document.querySelectorAll('.material-input-nome').forEach(el => {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            }, 100);
+        }
+
+        function atualizarTabelaMateriais() {
+            const tbody = document.getElementById('tbodyMateriais');
+            tbody.innerHTML = '';
+
+            materiais.forEach((mat, idx) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" class="input-field material-input-nome" value="${mat.nome}" placeholder="Material" onchange="atualizarMaterial(${idx}, 'nome', this.value)"></td>
+                    <td><input type="text" class="input-field" value="${mat.custo.toFixed(2).replace('.', ',')}" placeholder="0,00" onchange="atualizarMaterial(${idx}, 'custo', this.value)"></td>
+                    <td><input type="number" class="input-field" value="${mat.qtd}" min="1" onchange="atualizarMaterial(${idx}, 'qtd', this.value)"></td>
+                    <td style="text-align: right; padding-right: 8px;">R$ ${(mat.custo * mat.qtd).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+                    <td><button class="btn btn-danger btn-xs" onclick="removerMaterial(${idx})">🗑️</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            const total = materiais.reduce((sum, mat) => sum + (mat.custo * mat.qtd), 0);
+            document.getElementById('subtotalMateriais').textContent = 'R$ ' + total.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            atualizarPrecificacao();
+        }
+
+        function atualizarMaterial(idx, campo, valor) {
+            if (campo === 'nome') {
+                materiais[idx].nome = valor;
+            } else if (campo === 'custo') {
+                materiais[idx].custo = parseFloat(valor.replace(',', '.')) || 0;
+            } else if (campo === 'qtd') {
+                materiais[idx].qtd = parseInt(valor) || 1;
+            }
+            atualizarTabelaMateriais();
+        }
+
+        function removerMaterial(idx) {
+            materiais.splice(idx, 1);
+            atualizarTabelaMateriais();
+        }
+
+        // ============ MÃO DE OBRA ============
+        function atualizarMaoObra() {
+            const salarioStr = document.getElementById('inputSalarioMinimo').value.replace(',', '.');
+            maoObra.salario = parseFloat(salarioStr) || 1518;
+            maoObra.horas = parseInt(document.getElementById('inputHorasTrabalhadas').value) || 8;
+
+            const valorHora = maoObra.salario / 220;
+            document.getElementById('inputValorHora').value = 'R$ ' + valorHora.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            const totalMaoObra = valorHora * maoObra.horas;
+            document.getElementById('totalMaoObra').textContent = 'R$ ' + totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+            atualizarPrecificacao();
+        }
+
+        // ============ PRECIFICAÇÃO ============
+        function atualizarPrecificacao() {
+            const totalMateriais = materiais.reduce((sum, mat) => sum + (mat.custo * mat.qtd), 0);
+            const valorHora = maoObra.salario / 220;
+            const totalMaoObra = valorHora * maoObra.horas;
+            const custoTotal = totalMateriais + totalMaoObra;
+
+            precificacao.margem = parseInt(document.getElementById('inputMargemLucro').value) || 40;
+            precificacao.nomeCliente = document.getElementById('inputNomeCliente').value;
+
+            const precoFinal = custoTotal * (1 + precificacao.margem / 100);
+
+            document.getElementById('resumoSubMateriais').textContent = 'R$ ' + totalMateriais.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('resumoSubMaoObra').textContent = 'R$ ' + totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('custoTotalServico').textContent = 'R$ ' + custoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('precoFinal').textContent = 'R$ ' + precoFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+        // ============ RELATÓRIO ============
+        function atualizarRelatorio() {
+            const totalMateriais = materiais.reduce((sum, mat) => sum + (mat.custo * mat.qtd), 0);
+            const valorHora = maoObra.salario / 220;
+            const totalMaoObra = valorHora * maoObra.horas;
+            const custoTotal = totalMateriais + totalMaoObra;
+            const precoFinal = custoTotal * (1 + precificacao.margem / 100);
+            const dataAgora = new Date().toLocaleDateString('pt-BR');
+
+            let html = `
+                <strong>ORÇAMENTO PROFISSIONAL</strong><br>
+                ${precificacao.nomeCliente ? `<strong>Cliente:</strong> ${precificacao.nomeCliente}<br>` : ''}
+                <strong>Data:</strong> ${dataAgora}<br><br>
+            `;
+
+            if (materiais.length > 0) {
+                html += `
+                    <strong>Materiais Utilizados:</strong><br>
+                    <table>
+                        <tr><th>Material</th><th>Qtd</th><th>V. Unitário</th><th>Total</th></tr>
+                `;
+                materiais.forEach(mat => {
+                    html += `<tr><td>${mat.nome}</td><td>${mat.qtd}</td><td>R$ ${mat.custo.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${(mat.custo * mat.qtd).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>`;
+                });
+                html += `<tr><td colspan="3"><strong>Subtotal Materiais</strong></td><td><strong>R$ ${totalMateriais.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong></td></tr></table><br>`;
+            }
+
+            html += `
+                <strong>Mão de Obra:</strong><br>
+                <table>
+                    <tr><th>Descrição</th><th>Horas</th><th>V. Hora</th><th>Total</th></tr>
+                    <tr><td>Serviço</td><td>${maoObra.horas}</td><td>R$ ${valorHora.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td><td>R$ ${totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>
+                </table><br>
+
+                <strong>Resumo Financeiro:</strong><br>
+                Subtotal Materiais: R$ ${totalMateriais.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
+                Subtotal Mão de Obra: R$ ${totalMaoObra.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}<br>
+                <strong>Custo Total: R$ ${custoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong><br>
+                Margem de Lucro: ${precificacao.margem}%<br>
+                <strong style="color: var(--success); font-size: 1.2em;">PREÇO FINAL: R$ ${precoFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong>
+            `;
+
+            document.getElementById('conteudoRelatorio').innerHTML = html;
+        }
+
+        function copiarRelatorio() {
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            navigator.clipboard.writeText(conteudo).then(() => {
+                mostrarToast('✅ Relatório copiado!');
+            });
+        }
+
+        function baixarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            doc.text(conteudo, 10, 10, { maxWidth: 190 });
+            doc.save('orcamento.pdf');
+            mostrarToast('📥 PDF baixado!');
+        }
+
+        function compartilharRelatorio() {
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Orçamento',
+                    text: conteudo
+                });
+            } else {
+                mostrarToast('⚠️ Compartilhamento não suportado');
+            }
+        }
+
+        // ============ HISTÓRICO ============
+        function carregarHistorico() {
+            const historico = JSON.parse(localStorage.getItem('historico')) || [];
+            const container = document.getElementById('listaHistorico');
+            container.innerHTML = '';
+
+            if (historico.length === 0) {
+                document.getElementById('historicoVazio').classList.remove('hidden');
+            } else {
+                document.getElementById('historicoVazio').classList.add('hidden');
+                historico.forEach((item, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'card history-item';
+                    card.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <strong>${item.nomeCliente || 'Sem nome'}</strong><br>
+                                <span class="text-sm">R$ ${item.precoFinal.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                            </div>
+                            <span class="text-sm">${item.data}</span>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => carregarOrcamentoDoHistorico(item));
+                    container.appendChild(card);
+                });
+            }
+        }
+
+        function carregarOrcamentoDoHistorico(item) {
+            materiais = item.materiais;
+            maoObra = item.maoObra;
+            precificacao = item.precificacao;
+
+            atualizarTabelaMateriais();
+            atualizarMaoObra();
+            atualizarPrecificacao();
+
+            document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewBudget').classList.remove('hidden');
+            document.getElementById('viewHistorico').classList.add('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            document.getElementById('btnBack').classList.remove('hidden');
+
+            mostrarToast('📋 Orçamento carregado');
+        }
+
+        function salvarNoHistorico() {
+            const totalMateriais = materiais.reduce((sum, mat) => sum + (mat.custo * mat.qtd), 0);
+            const valorHora = maoObra.salario / 220;
+            const totalMaoObra = valorHora * maoObra.horas;
+            const custoTotal = totalMateriais + totalMaoObra;
+            const precoFinal = custoTotal * (1 + precificacao.margem / 100);
+
+            const novoOrcamento = {
+                nomeCliente: precificacao.nomeCliente || 'Sem nome',
+                data: new Date().toLocaleDateString('pt-BR'),
+                precoFinal: precoFinal,
+                materiais: materiais,
+                maoObra: maoObra,
+                precificacao: precificacao
             };
 
-            // ============ DOM REFS ============
-            const $ = (sel) => document.querySelector(sel);
-            const $$ = (sel) => document.querySelectorAll(sel);
-
-            const appContainer = $('#appContainer');
-            const mainContent = $('#mainContent');
-            const bottomNav = $('#bottomNav');
-            const fabNovo = $('#fabNovoOrcamento');
-            const btnDarkMode = $('#btnDarkMode');
-            const btnBack = $('#btnBack');
-            const toast = $('#toast');
-
-            const viewHome = $('#viewHome');
-            const viewBudget = $('#viewBudget');
-            const viewHistorico = $('#viewHistorico');
-            const tabMateriais = $('#tabMateriais');
-            const tabMaoObra = $('#tabMaoObra');
-            const tabPrecificacao = $('#tabPrecificacao');
-            const tabRelatorio = $('#tabRelatorio');
-            const tbodyMateriais = $('#tbodyMateriais');
-            const subtotalMateriaisEl = $('#subtotalMateriais');
-            const resumoHome = $('#resumoHome');
-            const resumoConteudo = $('#resumoConteudo');
-            const listaHistorico = $('#listaHistorico');
-            const historicoVazio = $('#historicoVazio');
-
-            // ============ FORMATTERS ============
-            function fmtBRL(val) {
-                return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-            }
-
-            function parseBRL(str) {
-                if (typeof str === 'number') return str;
-                let s = String(str).replace(/[R\$\s]/gi, '').replace(/\./g, '').replace(',', '.');
-                let n = parseFloat(s);
-                return isNaN(n) ? 0 : n;
-            }
-
-            function fmtDate(iso) {
-                const d = new Date(iso);
-                return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) +
-                    ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            }
-
-            function fmtDateFile(iso) {
-                const d = new Date(iso);
-                const dd = String(d.getDate()).padStart(2, '0');
-                const mm = String(d.getMonth() + 1).padStart(2, '0');
-                const yy = d.getFullYear();
-                return `${dd}-${mm}-${yy}`;
-            }
-
-            // ============ TOAST ============
-            let toastTimer;
-
-            function showToast(msg) {
-                toast.textContent = msg;
-                toast.classList.add('show');
-                clearTimeout(toastTimer);
-                toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
-            }
-
-            // ============ NAVIGATION ============
-            function setView(view) {
-                state.currentView = view;
-                viewHome.classList.toggle('hidden', view !== 'home');
-                viewBudget.classList.toggle('hidden', view !== 'budget');
-                viewHistorico.classList.toggle('hidden', view !== 'historico');
-                bottomNav.classList.toggle('hidden', view !== 'budget');
-                fabNovo.classList.toggle('hidden', view === 'budget');
-                btnBack.classList.toggle('hidden', view === 'home');
-
-                if (view === 'budget') {
-                    mudarTab(state.currentTab);
-                    atualizarTodosCalculos();
-                }
-                if (view === 'home') atualizarResumoHome();
-                if (view === 'historico') renderizarHistorico();
-
-                mainContent.scrollTop = 0;
-            }
-
-            function mudarTab(tab) {
-                state.currentTab = tab;
-                tabMateriais.classList.toggle('hidden', tab !== 'materiais');
-                tabMaoObra.classList.toggle('hidden', tab !== 'maoobra');
-                tabPrecificacao.classList.toggle('hidden', tab !== 'precificacao');
-                tabRelatorio.classList.toggle('hidden', tab !== 'relatorio');
-
-                $$('.nav-item').forEach(el => {
-                    el.classList.toggle('active', el.dataset.tab === tab);
-                });
-
-                if (tab === 'maoobra') atualizarMaoObra();
-                if (tab === 'precificacao') atualizarPrecificacao();
-                if (tab === 'relatorio') gerarRelatorio();
-                if (tab === 'materiais') renderizarTabelaMateriais();
-
-                mainContent.scrollTop = 0;
-            }
-
-            function novoOrcamento() {
-                state.materials = [];
-                state.labor = { minimumWage: 1518.0, hourlyRate: 6.9, hoursWorked: 8, totalLabor: 55.2 };
-                state.pricing = { profitMargin: 40, finalPrice: 0, totalCost: 0 };
-                state.clientName = '';
-                state.budgetId = Date.now();
-                state.currentTab = 'materiais';
-                $('#inputSalarioMinimo').value = '1.518,00';
-                $('#inputHorasTrabalhadas').value = '8';
-                $('#inputMargemLucro').value = '40';
-                $('#inputNomeCliente').value = '';
-                renderizarTabelaMateriais();
-                atualizarMaoObra();
-                setView('budget');
-                salvarRascunho();
-                showToast('Novo orçamento iniciado! ✨');
-            }
-
-            function abrirHistorico() {
-                setView('historico');
-            }
-
-            function voltarHome() {
-                setView('home');
-                state.budgetId = null;
-            }
-
-            // ============ MATERIALS TABLE ============
-            function adicionarMaterial() {
-                state.materials.push({ name: '', unitCost: 0, quantity: 1, total: 0 });
-                renderizarTabelaMateriais();
-                salvarRascunho();
-                // Focus on the new row's name input
-                const lastRow = tbodyMateriais.querySelector('tr:last-child');
-                if (lastRow) {
-                    const firstInput = lastRow.querySelector('input');
-                    if (firstInput) firstInput.focus();
-                }
-            }
-
-            function removerMaterial(index) {
-                state.materials.splice(index, 1);
-                renderizarTabelaMateriais();
-                salvarRascunho();
-            }
-
-            function atualizarMaterial(index, field, value) {
-                if (field === 'name') {
-                    state.materials[index].name = value;
-                } else if (field === 'unitCost') {
-                    state.materials[index].unitCost = parseBRL(value);
-                } else if (field === 'quantity') {
-                    state.materials[index].quantity = parseFloat(value) || 0;
-                }
-                state.materials[index].total = state.materials[index].unitCost * state.materials[index].quantity;
-                renderizarTabelaMateriais();
-                salvarRascunho();
-            }
-
-            function getSubtotalMateriais() {
-                return state.materials.reduce((sum, m) => sum + (m.total || 0), 0);
-            }
-
-            function renderizarTabelaMateriais() {
-                const subtotal = getSubtotalMateriais();
-                subtotalMateriaisEl.textContent = fmtBRL(subtotal);
-
-                if (state.materials.length === 0) {
-                    tbodyMateriais.innerHTML = `
-                    <tr>
-                      <td colspan="5" style="text-align:center;color:var(--text3);padding:20px;">
-                        Nenhum material adicionado.<br>Clique em "Adicionar Material" para começar.
-                      </td>
-                    </tr>`;
-                    return;
-                }
-
-                tbodyMateriais.innerHTML = state.materials.map((m, i) => `
-                  <tr>
-                    <td><input type="text" class="input-field" value="${escapeHtml(m.name)}" 
-                          onchange="window._atualizarMaterial(${i},'name',this.value)" 
-                          oninput="window._atualizarMaterial(${i},'name',this.value)"
-                          placeholder="Nome do material" style="min-width:100px;padding:6px 8px;font-size:0.75rem;"></td>
-                    <td><input type="text" class="input-field" value="${m.unitCost > 0 ? String(m.unitCost).replace('.',',') : ''}" 
-                          onchange="window._atualizarMaterial(${i},'unitCost',this.value)" 
-                          oninput="window._atualizarMaterial(${i},'unitCost',this.value)"
-                          placeholder="0,00" style="min-width:70px;padding:6px 8px;font-size:0.75rem;"></td>
-                    <td><input type="number" class="input-field" value="${m.quantity}" 
-                          onchange="window._atualizarMaterial(${i},'quantity',this.value)" 
-                          oninput="window._atualizarMaterial(${i},'quantity',this.value)"
-                          step="0.01" min="0" style="min-width:50px;padding:6px 8px;font-size:0.75rem;"></td>
-                    <td class="total-col">${fmtBRL(m.total)}</td>
-                    <td><button class="btn btn-danger btn-xs" onclick="window._removerMaterial(${i})" title="Remover">✕</button></td>
-                  </tr>`).join('');
-            }
-
-            function escapeHtml(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
-
-            // Expose to window for inline handlers
-            window._atualizarMaterial = atualizarMaterial;
-            window._removerMaterial = removerMaterial;
-            window._adicionarMaterial = adicionarMaterial;
-
-            // ============ LABOR ============
-            function atualizarMaoObra() {
-                const salarioStr = $('#inputSalarioMinimo').value;
-                const salario = parseBRL(salarioStr) || 1518.0;
-                state.labor.minimumWage = salario;
-                state.labor.hourlyRate = salario / 220;
-                state.labor.hoursWorked = parseFloat($('#inputHorasTrabalhadas').value) || 0;
-                state.labor.totalLabor = state.labor.hourlyRate * state.labor.hoursWorked;
-
-                $('#inputValorHora').value = 'R$ ' + state.labor.hourlyRate.toFixed(2).replace('.', ',');
-                $('#totalMaoObra').textContent = fmtBRL(state.labor.totalLabor);
-
-                if (state.currentTab === 'precificacao' || state.currentTab === 'relatorio') {
-                    atualizarPrecificacao();
-                }
-                salvarRascunho();
-            }
-
-            // ============ PRICING ============
-            function atualizarPrecificacao() {
-                const subtotalMat = getSubtotalMateriais();
-                const subtotalMao = state.labor.totalLabor;
-                const totalCost = subtotalMat + subtotalMao;
-                const margin = parseFloat($('#inputMargemLucro').value) || 0;
-                state.pricing.totalCost = totalCost;
-                state.pricing.profitMargin = margin;
-                state.pricing.finalPrice = totalCost * (1 + margin / 100);
-
-                $('#resumoSubMateriais').textContent = fmtBRL(subtotalMat);
-                $('#resumoSubMaoObra').textContent = fmtBRL(subtotalMao);
-                $('#custoTotalServico').textContent = fmtBRL(totalCost);
-                $('#precoFinal').textContent = fmtBRL(state.pricing.finalPrice);
-
-                if (state.currentTab === 'relatorio') gerarRelatorio();
-                salvarRascunho();
-            }
-
-            function atualizarTodosCalculos() {
-                atualizarMaoObra();
-                atualizarPrecificacao();
-                renderizarTabelaMateriais();
-            }
-
-            // ============ REPORT ============
-            function gerarRelatorio() {
-                const subtotalMat = getSubtotalMateriais();
-                const now = new Date().toISOString();
-                const clientName = $('#inputNomeCliente').value || '(não informado)';
-
-                let html = `
-                <p><strong>📅 Data:</strong> ${fmtDate(now)}</p>
-                <p><strong>👤 Cliente:</strong> ${escapeHtml(clientName)}</p>
-                <div class="divider"></div>
-                <p><strong>📦 Materiais:</strong></p>
-                <table style="width:100%;font-size:0.75rem;margin:4px 0;">
-                  <tr style="background:var(--surface2);"><th style="text-align:left;padding:4px;">Item</th><th style="text-align:right;padding:4px;">Custo Un.</th><th style="text-align:center;padding:4px;">Qtd</th><th style="text-align:right;padding:4px;">Total</th></tr>`;
-
-                if (state.materials.length === 0) {
-                    html +=
-                        `<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:8px;">Nenhum material</td></tr>`;
-                } else {
-                    state.materials.forEach(m => {
-                        html +=
-                            `<tr><td style="padding:4px;">${escapeHtml(m.name || '-')}</td><td style="text-align:right;padding:4px;">${fmtBRL(m.unitCost)}</td><td style="text-align:center;padding:4px;">${m.quantity}</td><td style="text-align:right;padding:4px;font-weight:600;">${fmtBRL(m.total)}</td></tr>`;
-                    });
-                }
-                html += `<tr><td colspan="3" style="text-align:right;font-weight:700;padding:4px;">Subtotal:</td><td style="text-align:right;font-weight:700;padding:4px;">${fmtBRL(subtotalMat)}</td></tr>`;
-                html += `</table>`;
-                html += `<div class="divider"></div>`;
-                html +=
-                    `<p><strong>👷 Mão de Obra:</strong> ${state.labor.hoursWorked}h × ${fmtBRL(state.labor.hourlyRate)}/h = <strong>${fmtBRL(state.labor.totalLabor)}</strong></p>`;
-                html += `<p><strong>📊 Custo Total:</strong> ${fmtBRL(state.pricing.totalCost)}</p>`;
-                html +=
-                    `<p><strong>📈 Margem de Lucro:</strong> ${state.pricing.profitMargin.toFixed(1)}% (${fmtBRL(state.pricing.finalPrice - state.pricing.totalCost)})</p>`;
-                html +=
-                    `<div style="background:var(--success-light);padding:12px;border-radius:var(--radius);text-align:center;margin-top:8px;">`;
-                html +=
-                    `<span style="font-size:1.3rem;font-weight:900;color:var(--success);">💰 PREÇO FINAL: ${fmtBRL(state.pricing.finalPrice)}</span>`;
-                html += `</div>`;
-
-                $('#conteudoRelatorio').innerHTML = html;
-                // Store for copy/PDF
-                state._reportHtml = html;
-                state._reportDate = now;
-            }
-
-            function copiarRelatorio() {
-                gerarRelatorio();
-                const div = document.createElement('div');
-                div.innerHTML = state._reportHtml;
-                const text = div.innerText || div.textContent;
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast('Relatório copiado! 📋');
-                }).catch(() => {
-                    showToast('Erro ao copiar. Tente novamente.');
-                });
-            }
-
-            function compartilharRelatorio() {
-                gerarRelatorio();
-                const div = document.createElement('div');
-                div.innerHTML = state._reportHtml;
-                const text = div.innerText || div.textContent;
-                if (navigator.share) {
-                    navigator.share({ title: 'Orçamento - OrçaJá', text: text }).catch(() => {});
-                } else {
-                    copiarRelatorio();
-                }
-            }
-
-            function baixarPDF() {
-                gerarRelatorio();
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-                const pageW = doc.internal.pageSize.getWidth();
-                let y = 15;
-
-                // Header
-                doc.setFillColor(99, 102, 241);
-                doc.rect(0, 0, pageW, 22, 'F');
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(16);
-                doc.setFont('helvetica', 'bold');
-                doc.text('📐 OrçaJá — Orçamento', 14, 14);
-
-                doc.setTextColor(40, 40, 40);
-                doc.setFontSize(10);
-                doc.setFont('helvetica', 'normal');
-                y = 30;
-                doc.text(`Data: ${fmtDate(state._reportDate || new Date().toISOString())}`, 14, y);
-                y += 6;
-                doc.text(`Cliente: ${$('#inputNomeCliente').value || '(não informado)'}`, 14, y);
-                y += 10;
-
-                // Divider
-                doc.setDrawColor(200, 200, 200);
-                doc.line(14, y, pageW - 14, y);
-                y += 8;
-
-                // Materials
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(11);
-                doc.text('Materiais:', 14, y);
-                y += 7;
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(9);
-
-                if (state.materials.length > 0) {
-                    // Table header
-                    doc.setFillColor(245, 245, 250);
-                    doc.rect(14, y - 4, pageW - 28, 7, 'F');
-                    doc.text('Item', 16, y);
-                    doc.text('Custo Un.', 90, y);
-                    doc.text('Qtd', 130, y);
-                    doc.text('Total', 160, y, { align: 'right' });
-                    y += 7;
-
-                    state.materials.forEach(m => {
-                        if (y > 270) { doc.addPage();
-                            y = 20; }
-                        doc.text((m.name || '-').substring(0, 35), 16, y);
-                        doc.text(fmtBRL(m.unitCost), 90, y);
-                        doc.text(String(m.quantity), 130, y);
-                        doc.text(fmtBRL(m.total), 172, y, { align: 'right' });
-                        y += 5.5;
-                    });
-                    y += 3;
-                    doc.setFont('helvetica', 'bold');
-                    doc.text(`Subtotal Materiais: ${fmtBRL(getSubtotalMateriais())}`, 14, y);
-                } else {
-                    doc.text('Nenhum material registrado.', 14, y);
-                    y += 6;
-                }
-
-                y += 8;
-                doc.setDrawColor(200, 200, 200);
-                doc.line(14, y, pageW - 14, y);
-                y += 8;
-
-                // Labor
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(10);
-                doc.text(
-                    `Mão de Obra: ${state.labor.hoursWorked}h × ${fmtBRL(state.labor.hourlyRate)}/h = ${fmtBRL(state.labor.totalLabor)}`,
-                    14, y);
-                y += 8;
-                doc.text(`Custo Total: ${fmtBRL(state.pricing.totalCost)}`, 14, y);
-                y += 8;
-                doc.text(
-                    `Margem de Lucro: ${state.pricing.profitMargin.toFixed(1)}% (${fmtBRL(state.pricing.finalPrice - state.pricing.totalCost)})`,
-                    14, y);
-                y += 10;
-
-                // Final price highlight
-                doc.setFillColor(16, 185, 129, 0.15);
-                doc.roundedRect(14, y - 2, pageW - 28, 14, 3, 3, 'F');
-                doc.setFontSize(14);
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(16, 185, 129);
-                doc.text(`PRECO FINAL: ${fmtBRL(state.pricing.finalPrice)}`, pageW / 2, y + 6, { align: 'center' });
-
-                // Footer
-                doc.setTextColor(150, 150, 150);
-                doc.setFontSize(7);
-                doc.text('Gerado por OrçaJá — Calculadora de Orçamentos', pageW / 2, 285, { align: 'center' });
-
-                const filename = `orcamento-${fmtDateFile(state._reportDate || new Date().toISOString())}.pdf`;
-                doc.save(filename);
-                showToast('PDF baixado! 📥');
-                salvarNoHistorico();
-            }
-
-            // ============ HISTORY ============
-            function getHistorico() {
-                try {
-                    return JSON.parse(localStorage.getItem('orcaja_history') || '[]');
-                } catch (e) { return []; }
-            }
-
-            function salvarNoHistorico() {
-                const historico = getHistorico();
-                const entry = {
-                    id: state.budgetId || Date.now(),
-                    date: state._reportDate || new Date().toISOString(),
-                    clientName: $('#inputNomeCliente').value || '',
-                    materials: JSON.parse(JSON.stringify(state.materials)),
-                    labor: { ...state.labor },
-                    pricing: { ...state.pricing },
-                    subtotalMateriais: getSubtotalMateriais(),
-                };
-                // Remove existing entry with same ID (update)
-                const idx = historico.findIndex(h => h.id === entry.id);
-                if (idx >= 0) historico[idx] = entry;
-                else historico.unshift(entry);
-                // Keep max 50 entries
-                if (historico.length > 50) historico.length = 50;
-                localStorage.setItem('orcaja_history', JSON.stringify(historico));
-            }
-
-            function salvarRascunho() {
-                if (!state.budgetId) return;
-                const draft = {
-                    id: state.budgetId,
-                    date: new Date().toISOString(),
-                    clientName: $('#inputNomeCliente').value || '',
-                    materials: JSON.parse(JSON.stringify(state.materials)),
-                    labor: { ...state.labor },
-                    pricing: { ...state.pricing },
-                    subtotalMateriais: getSubtotalMateriais(),
-                };
-                localStorage.setItem('orcaja_draft', JSON.stringify(draft));
-            }
-
-            function carregarRascunho() {
-                try {
-                    const draft = JSON.parse(localStorage.getItem('orcaja_draft'));
-                    if (draft && draft.materials && draft.labor) {
-                        state.materials = draft.materials;
-                        state.labor = draft.labor;
-                        state.pricing = draft.pricing || { profitMargin: 40, finalPrice: 0, totalCost: 0 };
-                        state.clientName = draft.clientName || '';
-                        state.budgetId = draft.id || Date.now();
-                        $('#inputSalarioMinimo').value = String(state.labor.minimumWage).replace('.', ',');
-                        $('#inputHorasTrabalhadas').value = state.labor.hoursWorked;
-                        $('#inputMargemLucro').value = state.pricing.profitMargin;
-                        $('#inputNomeCliente').value = state.clientName;
-                        return true;
-                    }
-                } catch (e) {}
-                return false;
-            }
-
-            function renderizarHistorico() {
-                const historico = getHistorico();
-                if (historico.length === 0) {
-                    listaHistorico.innerHTML = '';
-                    historicoVazio.classList.remove('hidden');
-                    return;
-                }
-                historicoVazio.classList.add('hidden');
-                listaHistorico.innerHTML = historico.map((h, i) => `
-                  <div class="card history-item" style="padding:14px;margin-bottom:8px;" onclick="window._abrirDoHistorico(${i})">
-                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-                      <div>
-                        <strong>${fmtBRL(h.pricing?.finalPrice || 0)}</strong>
-                        <span class="text-sm" style="margin-left:8px;">${fmtDate(h.date)}</span>
-                        ${h.clientName ? `<span class="badge badge-accent" style="margin-left:6px;">${escapeHtml(h.clientName)}</span>` : ''}
-                      </div>
-                      <div style="display:flex;gap:4px;">
-                        <button class="btn btn-outline btn-xs" onclick="event.stopPropagation();window._abrirDoHistorico(${i})">Abrir</button>
-                        <button class="btn btn-danger btn-xs" onclick="event.stopPropagation();window._excluirDoHistorico(${i})">✕</button>
-                      </div>
-                    </div>
-                  </div>`).join('');
-            }
-
-            function abrirDoHistorico(index) {
-                const historico = getHistorico();
-                const h = historico[index];
-                if (!h) return;
-                state.materials = JSON.parse(JSON.stringify(h.materials || []));
-                state.labor = { ...h.labor };
-                state.pricing = { ...h.pricing };
-                state.clientName = h.clientName || '';
-                state.budgetId = h.id;
-                state.currentTab = 'materiais';
-                $('#inputSalarioMinimo').value = String(state.labor.minimumWage).replace('.', ',');
-                $('#inputHorasTrabalhadas').value = state.labor.hoursWorked;
-                $('#inputMargemLucro').value = state.pricing.profitMargin;
-                $('#inputNomeCliente').value = state.clientName;
-                renderizarTabelaMateriais();
-                atualizarMaoObra();
-                atualizarPrecificacao();
-                setView('budget');
-                showToast('Orçamento reaberto! 📂');
-            }
-
-            function excluirDoHistorico(index) {
-                const historico = getHistorico();
-                if (confirm('Excluir este orçamento do histórico?')) {
-                    historico.splice(index, 1);
-                    localStorage.setItem('orcaja_history', JSON.stringify(historico));
-                    renderizarHistorico();
-                    showToast('Orçamento excluído.');
-                }
-            }
-
-            window._abrirDoHistorico = abrirDoHistorico;
-            window._excluirDoHistorico = excluirDoHistorico;
-
-            function atualizarResumoHome() {
-                const historico = getHistorico();
-                if (historico.length === 0) {
-                    resumoHome.classList.add('hidden');
-                    return;
-                }
-                resumoHome.classList.remove('hidden');
-                const ultimos = historico.slice(0, 3);
-                resumoConteudo.innerHTML = ultimos.map(h => `
-                  <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);">
-                    <span class="text-sm">${fmtDate(h.date)} ${h.clientName ? '— ' + escapeHtml(h.clientName) : ''}</span>
-                    <strong>${fmtBRL(h.pricing?.finalPrice || 0)}</strong>
-                  </div>`).join('') +
-                    `<button class="btn btn-ghost btn-sm mt-2" style="width:100%;" onclick="abrirHistorico()">Ver todo histórico →</button>`;
-            }
-
-            // ============ DARK MODE ============
-            function toggleDarkMode() {
-                state.darkMode = !state.darkMode;
-                aplicarDarkMode();
-                localStorage.setItem('orcaja_darkMode', state.darkMode ? '1' : '0');
-            }
-
-            function aplicarDarkMode() {
-                if (state.darkMode) {
-                    document.documentElement.classList.add('dark');
-                    btnDarkMode.textContent = '☀️';
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    btnDarkMode.textContent = '🌙';
-                }
-            }
-
-            function carregarDarkMode() {
-                const saved = localStorage.getItem('orcaja_darkMode');
-                state.darkMode = saved === '1';
-                aplicarDarkMode();
-            }
-
-            // ============ BACK BUTTON ============
-            btnBack.addEventListener('click', () => {
-                if (state.currentView === 'budget' || state.currentView === 'historico') {
-                    salvarNoHistorico();
-                    voltarHome();
-                }
-            });
-
-            btnDarkMode.addEventListener('click', toggleDarkMode);
-
-            // Expor funções usadas nos onclick para o escopo global
-            window.novoOrcamento = novoOrcamento;
-            window.abrirHistorico = abrirHistorico;
-            window.voltarHome = voltarHome;
-            window.mudarTab = mudarTab;
-            window.adicionarMaterial = adicionarMaterial;
-            window.atualizarMaoObra = atualizarMaoObra;
-            window.atualizarPrecificacao = atualizarPrecificacao;
-            window.copiarRelatorio = copiarRelatorio;
-            window.baixarPDF = baixarPDF;
-            window.compartilharRelatorio = compartilharRelatorio;
-
-            // ============ INIT ============
-            function init() {
-                carregarDarkMode();
-                const hasDraft = carregarRascunho();
-                renderizarTabelaMateriais();
-                atualizarMaoObra();
-                atualizarPrecificacao();
-                atualizarResumoHome();
-                setView('home');
-
-                if (hasDraft && getSubtotalMateriais() > 0) {
-                    // Show a subtle indication that there's a draft
-                    setTimeout(() => {
-                        const draft = JSON.parse(localStorage.getItem('orcaja_draft'));
-                        if (draft && getSubtotalMateriais() > 0) {
-                            resumoHome.classList.remove('hidden');
-                            if (!resumoConteudo.querySelector('.draft-indicator')) {
-                                const draftEl = document.createElement('div');
-                                draftEl.className = 'draft-indicator';
-                                draftEl.style.cssText =
-                                    'background:var(--primary-light);padding:10px;border-radius:var(--radius-sm);margin-bottom:8px;cursor:pointer;text-align:center;';
-                                draftEl.innerHTML =
-                                    `<span style="color:var(--primary);font-weight:600;">📝 Você tem um rascunho salvo</span><br><span class="text-sm">Clique em "Novo Orçamento" para continuar ou inicie um novo.</span>`;
-                                resumoConteudo.prepend(draftEl);
-                                draftEl.addEventListener('click', () => {
-                                    carregarRascunho();
-                                    renderizarTabelaMateriais();
-                                    atualizarMaoObra();
-                                    atualizarPrecificacao();
-                                    setView('budget');
-                                });
-                            }
-                        }
-                    }, 300);
-                }
-
-                // Setup input listeners for live updates
-                $('#inputSalarioMinimo').addEventListener('input', atualizarMaoObra);
-                $('#inputHorasTrabalhadas').addEventListener('input', atualizarMaoObra);
-                $('#inputMargemLucro').addEventListener('input', atualizarPrecificacao);
-                $('#inputNomeCliente').addEventListener('input', () => { salvarRascunho(); });
-            }
-
-            // ============ PWA SERVICE WORKER ============
-            if ('serviceWorker' in navigator) {
-                const swCode = `
-                  const CACHE = 'orcaja-v2';
-                  self.addEventListener('install', e => {
-                    e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])).then(() => self.skipWaiting()));
-                  });
-                  self.addEventListener('fetch', e => {
-                    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
-                      if(resp.ok){const clone=resp.clone();caches.open(CACHE).then(c=>c.put(e.request,clone));}
-                      return resp;
-                    })));
-                  });
-                `;
-                const swBlob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(swBlob);
-                navigator.serviceWorker.register(swUrl).catch(() => {
-                    // Service worker registration may fail with blob URL in some browsers
-                    // The app works perfectly without it
-                });
-            }
-
-            // ============ HANDLE ANDROID BACK BUTTON ============
-            window.addEventListener('popstate', (e) => {
-                if (state.currentView !== 'home') {
-                    e.preventDefault();
-                    salvarNoHistorico();
-                    voltarHome();
-                    history.pushState({ view: 'home' }, '', '');
-                }
-            });
-            history.pushState({ view: 'home' }, '', '');
-
-            // ============ KEYBOARD SHORTCUTS ============
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey || e.metaKey) {
-                    if (e.key === 'n') { e.preventDefault();
-                        novoOrcamento(); }
-                    if (e.key === 'h') { e.preventDefault();
-                        abrirHistorico(); }
-                    if (e.key === 'b') { e.preventDefault();
-                        voltarHome(); }
-                }
-            });
-
-            // ============ START ============
-            init();
-
-            console.log('✅ OrçaJá iniciado com sucesso!');
-            console.log('📐 Calculadora inteligente de orçamentos pronta para uso.');
-            console.log('💡 Dicas: Ctrl+N = Novo Orçamento | Ctrl+H = Histórico | Ctrl+B = Voltar');
-            console.log('📱 Funciona offline | Modo escuro disponível | PWA instalável');
-        })();
+            const historico = JSON.parse(localStorage.getItem('historico')) || [];
+            historico.unshift(novoOrcamento);
+            localStorage.setItem('historico', JSON.stringify(historico));
+
+            mostrarToast('💾 Orçamento salvo!');
+        }
+
+        // ============ TOAST ============
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensagem;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
     </script>
 </body>
 </html>
