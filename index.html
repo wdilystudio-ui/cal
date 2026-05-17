@@ -216,37 +216,56 @@
             position: absolute; bottom: 0; left: 0; right: 0;
             background: var(--surface);
             border-top: 1px solid var(--border);
-            display: flex; justify-content: space-around;
-            padding: 8px 2px 16px;
+            display: flex; justify-content: space-around; align-items: stretch;
+            /* padding-top fixo + padding-bottom adaptativo à safe-area do dispositivo */
+            padding: 6px 4px calc(12px + env(safe-area-inset-bottom));
             z-index: 20;
-            transition: all var(--transition);
-            padding-bottom: max(16px, env(safe-area-inset-bottom));
+            transition: background var(--transition), border-color var(--transition);
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            /* sombra suave para destacar a barra do conteúdo */
+            box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07);
         }
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 3px;
-            cursor: pointer; padding: 6px 8px; border-radius: var(--radius);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            /* área de toque confortável: mínimo 56 × 56 px recomendado pelo Material/HIG */
+            padding: 8px 10px;
+            min-width: 56px;
+            min-height: 56px;
+            border-radius: var(--radius);
             transition: all var(--transition);
             color: var(--text3); font-size: 0.65rem; font-weight: 500;
-            border: none; background: transparent; min-width: 48px;
+            border: none; background: transparent;
             letter-spacing: -0.2px; position: relative;
             -webkit-user-select: none; user-select: none;
             white-space: nowrap;
+            flex: 1;           /* distribui largura igual entre os 5 itens */
             flex-shrink: 0;
+            /* evita que o toque dispare feedback visual fora da área */
+            -webkit-tap-highlight-color: transparent;
         }
+        /* estado hover em desktop */
+        .nav-item:hover { background: var(--primary-light); color: var(--primary); }
         .nav-item.active { color: var(--primary); font-weight: 700; }
         .nav-item.active::before {
-            content: ''; position: absolute; top: -8px;
-            width: 24px; height: 3px;
+            content: ''; position: absolute; top: -1px;
+            width: 28px; height: 3px;
             border-radius: 0 0 4px 4px; background: var(--primary);
         }
-        .nav-icon { font-size: 1.2rem; transition: transform var(--transition); }
-        .nav-item:active .nav-icon { transform: scale(0.85); }
+        .nav-icon {
+            font-size: 1.3rem;
+            line-height: 1;
+            transition: transform var(--transition);
+        }
+        .nav-item:active .nav-icon { transform: scale(0.82); }
 
+        /* telas muito pequenas: reduz levemente sem comprometer a área de toque */
         @media (max-width: 380px) {
-            .nav-item { font-size: 0.6rem; padding: 4px 5px; min-width: 42px; }
-            .nav-icon { font-size: 1.1rem; }
+            .bottom-nav { padding: 4px 2px calc(10px + env(safe-area-inset-bottom)); }
+            .nav-item { font-size: 0.58rem; padding: 6px 6px; min-width: 48px; min-height: 52px; }
+            .nav-icon { font-size: 1.15rem; }
         }
 
         .card {
