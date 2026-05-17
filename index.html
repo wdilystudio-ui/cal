@@ -376,7 +376,6 @@
         #conteudoRelatorio table { width: auto !important; min-width: initial !important; margin: 8px auto; }
         #cardRelatorio .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; width: 100%; }
 
-        /* Ajustes mobile extras */
         @media (max-width: 400px) {
             .input-row { flex-direction: column; }
             .input-row .input-group { min-width: 100%; }
@@ -498,7 +497,6 @@
                     <div class="card">
                         <div class="card-title"><span class="icon">💸</span> Despesas e Custos Operacionais</div>
 
-                        <!-- Energia e Gás automáticos -->
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="input-label">Conta Mensal de Energia (R$)</label>
@@ -528,7 +526,6 @@
                         </div>
                         <div class="divider"></div>
 
-                        <!-- Outros custos operacionais -->
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="input-label">Energia do Produto (R$)</label>
@@ -753,19 +750,16 @@
 
         // ========== CÁLCULO PRINCIPAL DO ORÇAMENTO ==========
         function calcularOrcamentoTotal() {
-            // Subtotal materiais
             let subtotalMateriais = 0;
             materiais.forEach(mat => { subtotalMateriais += mat.custUnitario * mat.quantidade; });
             document.getElementById('resumoSubMateriais').textContent = formatarMoeda(subtotalMateriais);
 
-            // Mão de obra
             const salarioMinimo = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
             const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
             const valorHora = salarioMinimo / 220;
             const totalMaoObra = valorHora * horasTrabalhadas;
             document.getElementById('resumoSubMaoObra').textContent = formatarMoeda(totalMaoObra);
 
-            // Despesas operacionais
             const energia = parseFloat(document.getElementById('inputEnergia').value) || 0;
             const gas = parseFloat(document.getElementById('inputGas').value) || 0;
             const desperdicio = parseFloat(document.getElementById('inputDesperdicio').value) || 0;
@@ -778,11 +772,9 @@
             const totalDespesas = energia + gas + desperdicio + despesas + encargos + outrosCustos + totalCustosFixos;
             document.getElementById('resumoDespesas').textContent = formatarMoeda(totalDespesas);
 
-            // Custo total de produção
             const custoProducaoTotal = subtotalMateriais + totalMaoObra + totalDespesas;
             document.getElementById('custoTotalServico').textContent = formatarMoeda(custoProducaoTotal);
 
-            // Margem de lucro e preço final
             const margemLucro = Math.max(0, parseFloat(document.getElementById('inputMargemLucro').value) || 0);
             let precoVenda = custoProducaoTotal;
             if (margemLucro < 100) {
@@ -810,8 +802,6 @@
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             const navItem = document.querySelector(`[data-tab="${tabName}"]`);
             if (navItem) navItem.classList.add('active');
-
-            // Atualizar relatório ao acessar a aba
             if (tabName === 'relatorio') gerarRelatorio();
         }
 
@@ -841,7 +831,7 @@
             document.getElementById('bottomNav').classList.add('hidden');
         }
 
-        // ========== RELATÓRIO ==========
+        // ========== RELATÓRIO (preview em tela) ==========
         function gerarRelatorio() {
             const dados = calcularOrcamentoTotal();
             const nome = document.getElementById('nomeClienteOrcamento').value.trim() || 'Não informado';
@@ -851,8 +841,6 @@
             materiais.forEach(m => {
                 materiaisHtml += `<tr><td>${m.nome || '-'}</td><td>${formatarMoeda(m.custUnitario)}</td><td>${m.quantidade}</td><td>${formatarMoeda(m.custUnitario * m.quantidade)}</td></tr>`;
             });
-
-            const despesasTotal = converterParaNumero(document.getElementById('resumoDespesas').textContent);
 
             const html = `
                 <div style="text-align:left;">
@@ -880,31 +868,246 @@
                 .catch(() => mostrarToast('❌ Erro ao copiar.'));
         }
 
+        // ========== PDF PROFISSIONAL ==========
         function baixarPDF() {
             gerarRelatorio();
+
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                mostrarToast('⏳ Aguarde o carregamento do PDF...');
+                return;
+            }
+
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-            const conteudo = document.getElementById('conteudoRelatorio').innerText;
-            const linhas = conteudo.split('\n');
-            let y = 20;
-            doc.setFontSize(12);
-            doc.text('OrçaJá - Relatório de Orçamento', 14, y);
-            y += 10;
-            doc.setFontSize(10);
-            linhas.forEach(linha => {
-                if (y > 280) { doc.addPage(); y = 20; }
-                doc.text(linha, 14, y);
-                y += 6;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+            const pageW  = doc.internal.pageSize.getWidth();
+            const pageH  = doc.internal.pageSize.getHeight();
+            const margin = 18;
+            const cR     = pageW - margin;   // coluna direita
+            let y        = 0;
+
+            /* ── utilidades ───────────────────────────────────────── */
+            function sf(style, size, rgb) {
+                doc.setFont('helvetica', style);
+                doc.setFontSize(size);
+                if (rgb) doc.setTextColor(rgb[0], rgb[1], rgb[2]);
+            }
+            function hline(yp, rgb) {
+                doc.setDrawColor(...(rgb || [210, 210, 210]));
+                doc.setLineWidth(0.25);
+                doc.line(margin, yp, cR, yp);
+            }
+            function fillRect(x, yp, w, h, rgb) {
+                doc.setFillColor(rgb[0], rgb[1], rgb[2]);
+                doc.roundedRect(x, yp, w, h, 1.5, 1.5, 'F');
+            }
+            function sectionTitle(label, yp, accentRgb) {
+                sf('bold', 9, [30, 41, 59]);
+                doc.text(label, margin, yp);
+                doc.setDrawColor(...accentRgb);
+                doc.setLineWidth(0.9);
+                const tw = doc.getTextWidth(label);
+                doc.line(margin, yp + 2.5, margin + tw + 2, yp + 2.5);
+                doc.setLineWidth(0.25);
+                doc.setDrawColor(210, 210, 210);
+                doc.line(margin + tw + 2, yp + 2.5, cR, yp + 2.5);
+            }
+            function checkPage(needed) {
+                if (y + needed > pageH - 20) { doc.addPage(); y = 18; }
+            }
+
+            /* ── CABEÇALHO ─────────────────────────────────────────── */
+            fillRect(0, 0, pageW, 38, [22, 33, 52]);
+
+            // faixa lateral colorida
+            doc.setFillColor(99, 102, 241);
+            doc.rect(0, 0, 5, 38, 'F');
+
+            sf('bold', 22, [255, 255, 255]);
+            doc.text('ORÇAMENTO', margin, 17);
+            sf('normal', 9, [148, 163, 184]);
+            doc.text('Proposta Comercial', margin, 24);
+
+            const cliente  = document.getElementById('nomeClienteOrcamento').value.trim() || 'Não informado';
+            const dataAtual = new Date().toLocaleDateString('pt-BR');
+            const numOrc   = 'Nº ' + Date.now().toString().slice(-6);
+
+            sf('normal', 8, [148, 163, 184]);
+            doc.text(numOrc, cR, 13, { align: 'right' });
+            sf('normal', 8, [148, 163, 184]);
+            doc.text('Data: ' + dataAtual, cR, 20, { align: 'right' });
+
+            y = 46;
+
+            /* ── CLIENTE ───────────────────────────────────────────── */
+            fillRect(margin, y, pageW - margin * 2, 22, [241, 245, 249]);
+            sf('bold', 7, [100, 116, 139]);
+            doc.text('CLIENTE / PROJETO', margin + 4, y + 7);
+            sf('normal', 12, [15, 23, 42]);
+            const clienteTexto = cliente.length > 48 ? cliente.slice(0, 46) + '…' : cliente;
+            doc.text(clienteTexto, margin + 4, y + 16);
+            y += 30;
+
+            /* ── MATERIAIS ─────────────────────────────────────────── */
+            checkPage(40);
+            sectionTitle('MATERIAIS', y, [99, 102, 241]);
+            y += 8;
+
+            // cabeçalho da tabela
+            fillRect(margin, y, pageW - margin * 2, 8, [99, 102, 241]);
+            sf('bold', 7.5, [255, 255, 255]);
+            doc.text('ITEM', margin + 3, y + 5.5);
+            doc.text('CUSTO UNIT.', cR - 46, y + 5.5, { align: 'right' });
+            doc.text('QTD', cR - 22, y + 5.5, { align: 'right' });
+            doc.text('TOTAL', cR - 1, y + 5.5, { align: 'right' });
+            y += 9;
+
+            if (materiais.length === 0) {
+                sf('normal', 8, [148, 163, 184]);
+                doc.text('Nenhum material cadastrado', margin + 3, y + 5);
+                y += 9;
+            } else {
+                materiais.forEach((m, i) => {
+                    checkPage(10);
+                    const total = m.custUnitario * m.quantidade;
+                    if (i % 2 === 0) fillRect(margin, y - 1, pageW - margin * 2, 8, [248, 250, 252]);
+                    sf('normal', 8, [30, 30, 30]);
+                    const nome = (m.nome || '—');
+                    doc.text(nome.length > 42 ? nome.slice(0, 40) + '…' : nome, margin + 3, y + 5);
+                    doc.text(formatarMoeda(m.custUnitario), cR - 46, y + 5, { align: 'right' });
+                    doc.text(String(m.quantidade), cR - 22, y + 5, { align: 'right' });
+                    sf('bold', 8, [79, 70, 229]);
+                    doc.text(formatarMoeda(total), cR - 1, y + 5, { align: 'right' });
+                    y += 8;
+                });
+            }
+
+            checkPage(12);
+            fillRect(margin, y, pageW - margin * 2, 8, [238, 242, 255]);
+            sf('bold', 8.5, [67, 56, 202]);
+            doc.text('Subtotal Materiais', margin + 3, y + 5.8);
+            doc.text(document.getElementById('resumoSubMateriais').textContent, cR - 1, y + 5.8, { align: 'right' });
+            y += 14;
+
+            /* ── MÃO DE OBRA ───────────────────────────────────────── */
+            checkPage(40);
+            sectionTitle('MÃO DE OBRA', y, [245, 158, 11]);
+            y += 8;
+
+            const salario  = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
+            const horas    = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+            const vHora    = salario / 220;
+            const totalMO  = vHora * horas;
+
+            fillRect(margin, y, pageW - margin * 2, 28, [255, 251, 235]);
+
+            const moRows = [
+                ['Salário de referência', formatarMoeda(salario)],
+                ['Valor por hora  (÷ 220h)', formatarMoeda(vHora)],
+                ['Horas trabalhadas', horas + 'h'],
+                ['Subtotal Mão de Obra', formatarMoeda(totalMO)],
+            ];
+            moRows.forEach((r, i) => {
+                const ry = y + 6 + i * 6;
+                sf('normal', 7.8, [80, 80, 80]);
+                doc.text(r[0], margin + 3, ry);
+                sf(i === 3 ? 'bold' : 'normal', 7.8, i === 3 ? [146, 64, 14] : [80, 80, 80]);
+                doc.text(r[1], cR - 1, ry, { align: 'right' });
             });
-            doc.save('orcamento.pdf');
-            mostrarToast('📥 PDF baixado!');
+            y += 34;
+
+            /* ── DESPESAS ──────────────────────────────────────────── */
+            checkPage(40);
+            sectionTitle('DESPESAS OPERACIONAIS', y, [239, 68, 68]);
+            y += 8;
+
+            const cfHora = parseFloat(document.getElementById('inputCustosFixosHora').value) || 0;
+            const despItems = [
+                ['Energia elétrica',        parseFloat(document.getElementById('inputEnergia').value) || 0],
+                ['Gás',                     parseFloat(document.getElementById('inputGas').value) || 0],
+                ['Desperdício',             parseFloat(document.getElementById('inputDesperdicio').value) || 0],
+                ['Despesas gerais',         parseFloat(document.getElementById('inputDespesas').value) || 0],
+                ['Encargos',               parseFloat(document.getElementById('inputEncargos').value) || 0],
+                ['Outros custos',           parseFloat(document.getElementById('inputOutrosCustos').value) || 0],
+                ['Custos fixos (' + horas + 'h × ' + formatarMoeda(cfHora) + ')', cfHora * horas],
+            ].filter(d => d[1] > 0);
+
+            if (despItems.length === 0) {
+                sf('normal', 8, [148, 163, 184]);
+                doc.text('Sem despesas operacionais registradas', margin + 3, y + 5);
+                y += 9;
+            } else {
+                despItems.forEach((d, i) => {
+                    checkPage(10);
+                    if (i % 2 === 0) fillRect(margin, y - 1, pageW - margin * 2, 8, [255, 241, 242]);
+                    sf('normal', 8, [60, 60, 60]);
+                    doc.text(d[0], margin + 3, y + 5);
+                    sf('bold', 8, [185, 28, 28]);
+                    doc.text(formatarMoeda(d[1]), cR - 1, y + 5, { align: 'right' });
+                    y += 8;
+                });
+            }
+
+            checkPage(12);
+            fillRect(margin, y, pageW - margin * 2, 8, [255, 228, 230]);
+            sf('bold', 8.5, [153, 27, 27]);
+            doc.text('Subtotal Despesas', margin + 3, y + 5.8);
+            doc.text(document.getElementById('resumoDespesas').textContent, cR - 1, y + 5.8, { align: 'right' });
+            y += 14;
+
+            /* ── TOTAIS ────────────────────────────────────────────── */
+            checkPage(52);
+            hline(y, [180, 180, 180]);
+            y += 6;
+
+            // Linha custo de produção
+            fillRect(margin, y, pageW - margin * 2, 10, [241, 245, 249]);
+            sf('normal', 8.5, [71, 85, 105]);
+            doc.text('Custo de Produção Total', margin + 3, y + 7);
+            sf('bold', 8.5, [30, 41, 59]);
+            doc.text(document.getElementById('custoTotalServico').textContent, cR - 1, y + 7, { align: 'right' });
+            y += 13;
+
+            // Margem aplicada
+            const margem = parseFloat(document.getElementById('inputMargemLucro').value) || 0;
+            sf('normal', 7.5, [120, 120, 120]);
+            doc.text('Margem de lucro aplicada: ' + margem + '%', margin + 2, y);
+            y += 10;
+
+            // Preço final — destaque
+            fillRect(margin, y, pageW - margin * 2, 24, [16, 185, 129]);
+            // faixa lateral
+            doc.setFillColor(5, 150, 105);
+            doc.roundedRect(margin, y, 5, 24, 1.5, 1.5, 'F');
+
+            sf('bold', 9.5, [255, 255, 255]);
+            doc.text('PREÇO DE VENDA SUGERIDO', margin + 8, y + 10);
+            sf('normal', 7.5, [209, 250, 229]);
+            doc.text('Margem de ' + margem + '% incluída', margin + 8, y + 17);
+            sf('bold', 15, [255, 255, 255]);
+            doc.text(document.getElementById('precoVendaFinal').textContent, cR - 2, y + 16, { align: 'right' });
+            y += 30;
+
+            /* ── RODAPÉ ────────────────────────────────────────────── */
+            const fy = pageH - 10;
+            hline(fy - 5, [210, 210, 210]);
+            sf('normal', 6.5, [160, 160, 160]);
+            doc.text('Documento gerado em ' + dataAtual + '  ·  Proposta válida por 30 dias  ·  Valores sujeitos a alteração', pageW / 2, fy, { align: 'center' });
+
+            /* ── SALVAR ────────────────────────────────────────────── */
+            const nomeArq = 'orcamento_'
+                + cliente.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase().slice(0, 28)
+                + '_' + Date.now().toString().slice(-6)
+                + '.pdf';
+            doc.save(nomeArq);
+            mostrarToast('📥 PDF gerado com sucesso!');
         }
 
         function compartilharRelatorio() {
             gerarRelatorio();
             const texto = document.getElementById('conteudoRelatorio').innerText;
             if (navigator.share) {
-                navigator.share({ title: 'Orçamento OrçaJá', text: texto }).catch(() => {});
+                navigator.share({ title: 'Orçamento', text: texto }).catch(() => {});
             } else {
                 const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
                 window.open(url, '_blank');
@@ -1000,7 +1203,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             atualizarMaoObra();
             calcularCustosAutomaticos();
-            // Evento extra para horas do serviço
             document.getElementById('inputHorasTrabalhadas').addEventListener('input', () => {
                 atualizarMaoObra();
                 calcularCustosAutomaticos();
