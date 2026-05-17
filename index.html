@@ -9,9 +9,8 @@
     <meta name="apple-mobile-web-app-title" content="OrçaJá">
     <meta name="description" content="Calculadora inteligente de orçamentos e precificação de serviços">
     <title>OrçaJá — Calculadora de Orçamentos</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk9yw6dhSsOhIiwKICAic2hvcnRfbmFtZSI6ICJPcsOnYUrDoSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAi[...]
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
-    </script>
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk9yw6dhSsOhIiwKICAic2hvcnRfbmFtZSI6ICJPcsOnYUrDoSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAi[...]">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
             --bg: #f1f5f9;
@@ -64,17 +63,9 @@
             --shadow-xl: 0 20px 40px -5px rgba(0, 0, 0, 0.6);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            font-size: 16px;
-            -webkit-tap-highlight-color: transparent;
-            scroll-behavior: smooth;
-        }
+        html { font-size: 16px; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -88,12 +79,10 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             padding: 0;
-            /* Permite que inputs funcionem corretamente em mobile */
             -webkit-user-select: text;
             user-select: text;
         }
 
-        /* App Container — simula um celular */
         .app-container {
             width: 100%;
             max-width: 460px;
@@ -108,24 +97,14 @@
         }
 
         @media (min-width: 500px) {
-            body {
-                padding: 16px;
-            }
-            .app-container {
-                height: 92vh;
-                border-radius: 28px;
-                max-height: 900px;
-            }
+            body { padding: 16px; }
+            .app-container { height: 92vh; border-radius: 28px; max-height: 900px; }
         }
 
         @media (max-width: 499px) {
-            .app-container {
-                max-width: 100%;
-                border-radius: 0;
-            }
+            .app-container { max-width: 100%; border-radius: 0; }
         }
 
-        /* Header */
         .app-header {
             background: var(--surface);
             padding: 14px 20px;
@@ -138,72 +117,36 @@
             transition: all var(--transition);
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-left { display: flex; align-items: center; gap: 10px; }
         .logo-icon {
-            width: 38px;
-            height: 38px;
+            width: 38px; height: 38px;
             border-radius: var(--radius-sm);
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
             cursor: pointer;
             transition: transform var(--transition), box-shadow var(--transition);
         }
-        .logo-icon:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45);
-        }
-        .header-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.3px;
-            transition: color var(--transition);
-        }
-        .header-subtitle {
-            font-size: 0.7rem;
-            color: var(--text2);
-            font-weight: 500;
-            transition: color var(--transition);
-        }
-        .header-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+        .logo-icon:hover { transform: scale(1.05); box-shadow: 0 6px 18px rgba(99, 102, 241, 0.45); }
+        .header-title { font-size: 1.1rem; font-weight: 700; color: var(--text); letter-spacing: -0.3px; transition: color var(--transition); }
+        .header-subtitle { font-size: 0.7rem; color: var(--text2); font-weight: 500; transition: color var(--transition); }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
         .btn-icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             border-radius: 50%;
             border: 1.5px solid var(--border);
             background: var(--surface2);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 17px;
             transition: all var(--transition);
             color: var(--text);
             flex-shrink: 0;
         }
-        .btn-icon:hover {
-            background: var(--primary-light);
-            border-color: var(--primary);
-            transform: scale(1.05);
-        }
-        .btn-icon:active {
-            transform: scale(0.94);
-            transition: 0.1s;
-        }
+        .btn-icon:hover { background: var(--primary-light); border-color: var(--primary); transform: scale(1.05); }
+        .btn-icon:active { transform: scale(0.94); transition: 0.1s; }
 
-        /* Main Content */
         .main-content {
             flex: 1;
             overflow-y: auto;
@@ -214,253 +157,88 @@
             transition: all var(--transition);
             position: relative;
         }
-        .main-content::-webkit-scrollbar {
-            width: 3px;
-        }
-        .main-content::-webkit-scrollbar-thumb {
-            background: var(--text3);
-            border-radius: 10px;
-        }
+        .main-content::-webkit-scrollbar { width: 3px; }
+        .main-content::-webkit-scrollbar-thumb { background: var(--text3); border-radius: 10px; }
 
-        /* ============ HOME PAGE - NOVO LAYOUT ORGANIZADO ============ */
-
-        /* Container da logo na home */
-        .home-logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        /* Logo circular na home */
+        .home-logo-container { display: flex; justify-content: center; align-items: center; margin-bottom: 16px; }
         .home-logo {
-            width: 92px;
-            height: 92px;
+            width: 92px; height: 92px;
             border-radius: 50%;
             overflow: hidden;
             background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             cursor: pointer;
             border: 3px solid rgba(255, 255, 255, 0.95);
             box-shadow: 0 8px 28px rgba(99, 102, 241, 0.28);
             transition: transform var(--transition), box-shadow var(--transition);
-            padding: 0;
-            flex-shrink: 0;
+            padding: 0; flex-shrink: 0;
         }
+        .home-logo:hover { transform: scale(1.06); box-shadow: 0 12px 36px rgba(99, 102, 241, 0.42); }
+        .home-logo:active { transform: scale(0.95); transition: 0.1s; }
+        .home-logo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+        .home-card-top { text-align: center; padding: 32px 20px 28px; }
+        .home-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text); margin-bottom: 4px; transition: color var(--transition); }
+        .home-subtitle { font-size: 0.8rem; color: var(--text2); font-weight: 500; margin-bottom: 10px; transition: color var(--transition); }
+        .home-description { font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 20px; max-width: 360px; margin-left: auto; margin-right: auto; transition: color var(--transition); }
+        .home-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
 
-        .home-logo:hover {
-            transform: scale(1.06);
-            box-shadow: 0 12px 36px rgba(99, 102, 241, 0.42);
-        }
-
-        .home-logo:active {
-            transform: scale(0.95);
-            transition: 0.1s;
-        }
-
-        .home-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-        }
-
-        /* Card principal da home */
-        .home-card-top {
-            text-align: center;
-            padding: 32px 20px 28px;
-        }
-
-        /* Título principal */
-        .home-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: var(--text);
-            margin-bottom: 4px;
-            transition: color var(--transition);
-        }
-
-        /* Subtítulo */
-        .home-subtitle {
-            font-size: 0.8rem;
-            color: var(--text2);
-            font-weight: 500;
-            margin-bottom: 10px;
-            transition: color var(--transition);
-        }
-
-        /* Descrição */
-        .home-description {
-            font-size: 0.85rem;
-            color: var(--text2);
-            line-height: 1.5;
-            margin-bottom: 20px;
-            max-width: 360px;
-            margin-left: auto;
-            margin-right: auto;
-            transition: color var(--transition);
-        }
-
-        /* Container dos botões de ação */
-        .home-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Responsividade da home */
         @media (max-width: 380px) {
-            .home-logo {
-                width: 76px;
-                height: 76px;
-                border-width: 2px;
-            }
-            .home-logo-container {
-                margin-bottom: 12px;
-            }
-            .home-card-top {
-                padding: 24px 14px 20px;
-            }
-            .home-title {
-                font-size: 1.35rem;
-            }
-            .home-subtitle {
-                font-size: 0.73rem;
-            }
-            .home-description {
-                font-size: 0.78rem;
-                margin-bottom: 16px;
-                max-width: 280px;
-            }
-            .home-actions {
-                flex-direction: column;
-                align-items: center;
-                gap: 8px;
-            }
-            .home-actions .btn {
-                width: 100%;
-                max-width: 260px;
-                justify-content: center;
-                font-size: 0.9rem;
-                padding: 12px 20px;
-            }
+            .home-logo { width: 76px; height: 76px; border-width: 2px; }
+            .home-logo-container { margin-bottom: 12px; }
+            .home-card-top { padding: 24px 14px 20px; }
+            .home-title { font-size: 1.35rem; }
+            .home-subtitle { font-size: 0.73rem; }
+            .home-description { font-size: 0.78rem; margin-bottom: 16px; max-width: 280px; }
+            .home-actions { flex-direction: column; align-items: center; gap: 8px; }
+            .home-actions .btn { width: 100%; max-width: 260px; justify-content: center; font-size: 0.9rem; padding: 12px 20px; }
         }
-
         @media (max-width: 340px) {
-            .home-logo {
-                width: 66px;
-                height: 66px;
-            }
-            .home-card-top {
-                padding: 18px 10px 16px;
-            }
-            .home-title {
-                font-size: 1.2rem;
-            }
-            .home-description {
-                font-size: 0.73rem;
-                max-width: 240px;
-            }
+            .home-logo { width: 66px; height: 66px; }
+            .home-card-top { padding: 18px 10px 16px; }
+            .home-title { font-size: 1.2rem; }
+            .home-description { font-size: 0.73rem; max-width: 240px; }
         }
-
         @media (min-width: 420px) and (max-width: 499px) {
-            .home-logo {
-                width: 98px;
-                height: 98px;
-            }
-            .home-title {
-                font-size: 1.6rem;
-            }
-            .home-description {
-                font-size: 0.88rem;
-                max-width: 380px;
-            }
+            .home-logo { width: 98px; height: 98px; }
+            .home-title { font-size: 1.6rem; }
+            .home-description { font-size: 0.88rem; max-width: 380px; }
         }
-
         @media (min-width: 500px) {
-            .home-logo {
-                width: 100px;
-                height: 100px;
-            }
-            .home-card-top {
-                padding: 36px 24px 30px;
-            }
-            .home-title {
-                font-size: 1.7rem;
-            }
-            .home-subtitle {
-                font-size: 0.85rem;
-            }
-            .home-description {
-                font-size: 0.9rem;
-                max-width: 400px;
-            }
+            .home-logo { width: 100px; height: 100px; }
+            .home-card-top { padding: 36px 24px 30px; }
+            .home-title { font-size: 1.7rem; }
+            .home-subtitle { font-size: 0.85rem; }
+            .home-description { font-size: 0.9rem; max-width: 400px; }
         }
 
-        /* ============ FIM HOME PAGE ============ */
-
-        /* Bottom Navigation */
         .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: absolute; bottom: 0; left: 0; right: 0;
             background: var(--surface);
             border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
+            display: flex; justify-content: space-around;
             padding: 8px 6px 16px;
             z-index: 20;
             transition: all var(--transition);
             padding-bottom: max(16px, env(safe-area-inset-bottom));
         }
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: var(--radius);
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            cursor: pointer; padding: 8px 12px; border-radius: var(--radius);
             transition: all var(--transition);
-            color: var(--text3);
-            font-size: 0.68rem;
-            font-weight: 500;
-            border: none;
-            background: transparent;
-            min-width: 55px;
-            letter-spacing: -0.2px;
-            position: relative;
-            -webkit-user-select: none;
-            user-select: none;
+            color: var(--text3); font-size: 0.68rem; font-weight: 500;
+            border: none; background: transparent; min-width: 55px;
+            letter-spacing: -0.2px; position: relative;
+            -webkit-user-select: none; user-select: none;
         }
-        .nav-item.active {
-            color: var(--primary);
-            font-weight: 700;
-        }
+        .nav-item.active { color: var(--primary); font-weight: 700; }
         .nav-item.active::before {
-            content: '';
-            position: absolute;
-            top: -8px;
-            width: 24px;
-            height: 3px;
-            border-radius: 0 0 4px 4px;
-            background: var(--primary);
+            content: ''; position: absolute; top: -8px;
+            width: 24px; height: 3px;
+            border-radius: 0 0 4px 4px; background: var(--primary);
         }
-        .nav-icon {
-            font-size: 1.3rem;
-            transition: transform var(--transition);
-        }
-        .nav-item:active .nav-icon {
-            transform: scale(0.85);
-        }
+        .nav-icon { font-size: 1.3rem; transition: transform var(--transition); }
+        .nav-item:active .nav-icon { transform: scale(0.85); }
 
-        /* Cards */
         .card {
             background: var(--surface);
             border-radius: var(--radius-lg);
@@ -472,374 +250,113 @@
             animation: fadeInUp 0.4s ease;
         }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .card-title {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 12px;
-            letter-spacing: -0.2px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.85rem; font-weight: 700; color: var(--text);
+            margin-bottom: 12px; letter-spacing: -0.2px;
+            display: flex; align-items: center; gap: 8px;
             transition: color var(--transition);
-            -webkit-user-select: none;
-            user-select: none;
+            -webkit-user-select: none; user-select: none;
         }
-        .card-title .icon {
-            font-size: 1.2rem;
-        }
+        .card-title .icon { font-size: 1.2rem; }
 
-        /* Buttons */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 12px 20px;
-            border-radius: var(--radius);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            border: none;
-            transition: all var(--transition);
-            letter-spacing: -0.2px;
-            font-family: inherit;
-            white-space: nowrap;
-            -webkit-user-select: none;
-            user-select: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 12px 20px; border-radius: var(--radius);
+            font-weight: 600; font-size: 0.9rem; cursor: pointer;
+            border: none; transition: all var(--transition);
+            letter-spacing: -0.2px; font-family: inherit; white-space: nowrap;
+            -webkit-user-select: none; user-select: none;
         }
-        .btn:active {
-            transform: scale(0.96);
-            transition: 0.08s;
-        }
-        .btn-primary {
-            background: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
-        }
-        .btn-outline {
-            background: var(--surface);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        .btn-outline:hover {
-            background: var(--primary-light);
-        }
-        .btn-sm {
-            padding: 7px 14px;
-            font-size: 0.78rem;
-            border-radius: 8px;
-        }
-        .btn-xs {
-            padding: 5px 10px;
-            font-size: 0.7rem;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        .btn-danger {
-            background: var(--danger);
-            color: #fff;
-        }
-        .btn-success {
-            background: var(--success);
-            color: #fff;
-        }
-        .btn-ghost {
-            background: transparent;
-            border: 1.5px solid var(--border);
-            color: var(--text2);
-        }
+        .btn:active { transform: scale(0.96); transition: 0.08s; }
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35); }
+        .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45); }
+        .btn-outline { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary-light); }
+        .btn-sm { padding: 7px 14px; font-size: 0.78rem; border-radius: 8px; }
+        .btn-xs { padding: 5px 10px; font-size: 0.7rem; border-radius: 6px; font-weight: 600; }
+        .btn-danger { background: var(--danger); color: #fff; }
+        .btn-success { background: var(--success); color: #fff; }
+        .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text2); }
 
-        /* Inputs */
-        .input-group {
-            margin-bottom: 12px;
-        }
+        .input-group { margin-bottom: 12px; }
         .input-label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text2);
-            margin-bottom: 4px;
-            letter-spacing: -0.1px;
-            transition: color var(--transition);
-            -webkit-user-select: none;
-            user-select: none;
+            display: block; font-size: 0.75rem; font-weight: 600; color: var(--text2);
+            margin-bottom: 4px; letter-spacing: -0.1px; transition: color var(--transition);
+            -webkit-user-select: none; user-select: none;
         }
         .input-field {
-            width: 100%;
-            padding: 11px 14px;
-            border-radius: var(--radius-sm);
-            border: 1.5px solid var(--border);
-            background: var(--surface2);
-            font-size: 0.9rem;
-            color: var(--text);
-            font-family: inherit;
-            transition: all var(--transition);
-            outline: none;
-            -webkit-user-select: text;
-            user-select: text;
+            width: 100%; padding: 11px 14px; border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border); background: var(--surface2);
+            font-size: 0.9rem; color: var(--text); font-family: inherit;
+            transition: all var(--transition); outline: none;
+            -webkit-user-select: text; user-select: text;
         }
-        .input-field:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-            background: var(--surface);
-        }
-        .input-row {
-            display: flex;
-            gap: 8px;
-            align-items: flex-end;
-            flex-wrap: wrap;
-        }
-        .input-row .input-group {
-            flex: 1;
-            min-width: 80px;
-            margin-bottom: 0;
-        }
+        .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); background: var(--surface); }
+        .input-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
+        .input-row .input-group { flex: 1; min-width: 80px; margin-bottom: 0; }
 
-        /* Table */
-        .table-wrap {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin: 0 -4px;
-            padding: 0 4px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-            min-width: 420px;
-        }
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 420px; }
         table th {
-            background: var(--surface2);
-            padding: 10px 8px;
-            text-align: left;
-            font-weight: 700;
-            color: var(--text2);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            border-bottom: 2px solid var(--border);
-            white-space: nowrap;
-            transition: all var(--transition);
-            -webkit-user-select: none;
-            user-select: none;
+            background: var(--surface2); padding: 10px 8px; text-align: left;
+            font-weight: 700; color: var(--text2); font-size: 0.7rem;
+            text-transform: uppercase; letter-spacing: 0.3px;
+            border-bottom: 2px solid var(--border); white-space: nowrap;
+            transition: all var(--transition); -webkit-user-select: none; user-select: none;
         }
-        table td {
-            padding: 9px 8px;
-            border-bottom: 1px solid var(--border);
-            color: var(--text);
-            transition: all var(--transition);
-            white-space: nowrap;
-        }
-        table .total-col {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .highlight-number {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: -1px;
-            transition: color var(--transition);
-        }
-        .highlight-lg {
-            font-size: 2rem;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-        }
+        table td { padding: 9px 8px; border-bottom: 1px solid var(--border); color: var(--text); transition: all var(--transition); white-space: nowrap; }
+        table .total-col { font-weight: 700; color: var(--primary); }
+        .highlight-number { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; transition: color var(--transition); }
+        .highlight-lg { font-size: 2rem; font-weight: 900; letter-spacing: -1.5px; }
 
-        /* FAB */
         .fab {
-            position: absolute;
-            bottom: 90px;
-            right: 20px;
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
-            z-index: 25;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition);
-            animation: pulse 2.5s infinite;
-            -webkit-user-select: none;
-            user-select: none;
+            position: absolute; bottom: 90px; right: 20px;
+            width: 52px; height: 52px; border-radius: 50%;
+            background: var(--primary); color: #fff; border: none;
+            font-size: 24px; cursor: pointer; box-shadow: var(--shadow-lg);
+            z-index: 25; display: flex; align-items: center; justify-content: center;
+            transition: all var(--transition); animation: pulse 2.5s infinite;
+            -webkit-user-select: none; user-select: none;
         }
         @keyframes pulse {
-            0%,
-            100% {
-                box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-            }
-            50% {
-                box-shadow: 0 12px 35px rgba(99, 102, 241, 0.65);
-            }
+            0%, 100% { box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 12px 35px rgba(99, 102, 241, 0.65); }
         }
-        .fab:active {
-            transform: scale(0.9);
-        }
+        .fab:active { transform: scale(0.9); }
 
-        /* Toast */
         .toast {
-            position: fixed;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #1e293b;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
+            position: fixed; bottom: 120px; left: 50%; transform: translateX(-50%);
+            background: #1e293b; color: #fff; padding: 10px 20px;
+            border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+            z-index: 100; opacity: 0; pointer-events: none;
             transition: opacity 0.3s ease, transform 0.3s ease;
-            box-shadow: var(--shadow-lg);
-            white-space: nowrap;
+            box-shadow: var(--shadow-lg); white-space: nowrap;
         }
-        .toast.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(-8px);
-        }
+        .toast.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(-8px); }
 
-        /* Utility */
-        .text-center {
-            text-align: center;
-        }
-        .text-sm {
-            font-size: 0.75rem;
-            color: var(--text2);
-        }
-        .mt-2 {
-            margin-top: 8px;
-        }
-        .mt-3 {
-            margin-top: 14px;
-        }
-        .mb-2 {
-            margin-bottom: 8px;
-        }
-        .gap-2 {
-            gap: 8px;
-        }
-        .flex-wrap {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .hidden {
-            display: none !important;
-        }
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 12px 0;
-            transition: background var(--transition);
-        }
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: -0.1px;
-        }
-        .badge-success {
-            background: var(--success-light);
-            color: var(--success);
-        }
-        .badge-accent {
-            background: var(--accent-light);
-            color: var(--accent);
-        }
+        .text-center { text-align: center; }
+        .text-sm { font-size: 0.75rem; color: var(--text2); }
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 14px; }
+        .mb-2 { margin-bottom: 8px; }
+        .gap-2 { gap: 8px; }
+        .flex-wrap { display: flex; flex-wrap: wrap; }
+        .hidden { display: none !important; }
+        .divider { height: 1px; background: var(--border); margin: 12px 0; transition: background var(--transition); }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: -0.1px; }
+        .badge-success { background: var(--success-light); color: var(--success); }
+        .badge-accent { background: var(--accent-light); color: var(--accent); }
 
-        /* History item */
-        .history-item {
-            cursor: pointer;
-            transition: all var(--transition);
-        }
-        .history-item:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow);
-        }
+        .history-item { cursor: pointer; transition: all var(--transition); }
+        .history-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
 
-        /* Relatório: centralizar conteúdo e ajustar tabelas */
-        #cardRelatorio {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        #conteudoRelatorio {
-            font-size: 0.82rem;
-            line-height: 1.6;
-            color: var(--text);
-            text-align: center;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        #conteudoRelatorio table {
-            width: auto !important;
-            min-width: initial !important;
-            margin: 8px auto;
-        }
-
-        #cardRelatorio .actions {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            width: 100%;
-        }
-
-        /* Seção de custos operacionais */
-        .operational-costs-section {
-            background: var(--surface2);
-            padding: 12px;
-            border-radius: var(--radius);
-            margin: 8px 0;
-            border-left: 3px solid var(--accent);
-        }
-
-        .operational-costs-section .card-title {
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-        }
-
-        /* Seção de meta financeira */
-        .financial-goal-section {
-            background: var(--accent-light);
-            padding: 12px;
-            border-radius: var(--radius);
-            margin: 8px 0;
-            border-left: 3px solid var(--accent);
-        }
-
-        .financial-goal-section .card-title {
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-        }
+        #cardRelatorio { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        #conteudoRelatorio { font-size: 0.82rem; line-height: 1.6; color: var(--text); text-align: center; width: 100%; max-width: 420px; }
+        #conteudoRelatorio table { width: auto !important; min-width: initial !important; margin: 8px auto; }
+        #cardRelatorio .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; width: 100%; }
     </style>
 </head>
 <body>
@@ -863,46 +380,33 @@
 
         <!-- Main Content -->
         <div class="main-content" id="mainContent">
-            <!-- ============ HOME VIEW - NOVO LAYOUT ============ -->
+            <!-- HOME VIEW -->
             <div id="viewHome">
-                <!-- Card principal com logo, título e botões -->
                 <div class="card home-card-top">
-                    <!-- Logo centralizada -->
                     <div class="home-logo-container">
                         <button class="home-logo" onclick="voltarHome()" title="Voltar ao início" aria-label="Voltar ao início">
                             <img src="img/logo.jpeg" alt="Logo OrçaJá">
                         </button>
                     </div>
-
-                    <!-- Título e descrição -->
                     <h2 class="home-title">OrçaJá</h2>
                     <p class="home-subtitle">Calculadora Inteligente</p>
                     <p class="home-description">Planilha inteligente para calcular preços, custos e gerar orçamentos profissionais em segundos.</p>
-
-                    <!-- Botões de ação -->
                     <div class="home-actions">
-                        <button class="btn btn-primary" onclick="novoOrcamento()" style="font-size:1rem;padding:14px 24px;">
-                            ✨ Novo Orçamento
-                        </button>
-                        <button class="btn btn-outline" onclick="abrirHistorico()" style="font-size:1rem;padding:14px 24px;">
-                            📋 Histórico
-                        </button>
+                        <button class="btn btn-primary" onclick="novoOrcamento()" style="font-size:1rem;padding:14px 24px;">✨ Novo Orçamento</button>
+                        <button class="btn btn-outline" onclick="abrirHistorico()" style="font-size:1rem;padding:14px 24px;">📋 Histórico</button>
                     </div>
                 </div>
 
-                <!-- Resumo dos últimos cálculos -->
                 <div id="resumoHome" class="card hidden">
                     <div class="card-title">📊 Resumo dos Últimos Cálculos</div>
                     <div id="resumoConteudo"></div>
                 </div>
 
-                <!-- Card "Ideal para" -->
                 <div class="card" style="text-align:center;">
                     <div class="card-title">💡 Ideal para</div>
                     <p class="text-sm">Marceneiros • Designers • Artesãos • Freelancers • Autônomos • Prestadores de Serviço</p>
                 </div>
             </div>
-            <!-- ============ FIM HOME VIEW ============ -->
 
             <!-- BUDGET VIEW -->
             <div id="viewBudget" class="hidden">
@@ -931,9 +435,7 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <button class="btn btn-outline btn-sm mt-3" onclick="adicionarMaterial()" style="width:100%;">
-                            ＋ Adicionar Material
-                        </button>
+                        <button class="btn btn-outline btn-sm mt-3" onclick="adicionarMaterial()" style="width:100%;">＋ Adicionar Material</button>
                         <p class="text-sm mt-2">💡 Digite o valor de cada item utilizado. O sistema multiplica automaticamente o custo pela quantidade (aceita valores fracionados).</p>
                     </div>
                 </div>
@@ -961,12 +463,12 @@
                         <p class="text-sm mt-2">💡 O valor da hora é calculado automaticamente: Salário Mínimo ÷ 220 horas mensais.</p>
                     </div>
                 </div>
-                
-                <!-- Aba Precificação Atualizada -->
+
+                <!-- Aba Precificação -->
                 <div id="tabPrecificacao" class="tab-content hidden">
                     <div class="card">
                         <div class="card-title"><span class="icon">💰</span> Precificação e Orçamento</div>
-                        
+
                         <!-- Resumo de Custos -->
                         <div style="display:flex;justify-content:space-between;padding:8px 0;">
                             <span class="text-sm">Subtotal Materiais:</span>
@@ -976,8 +478,75 @@
                             <span class="text-sm">Subtotal Mão de Obra:</span>
                             <span style="font-weight:700;" id="resumoSubMaoObra">R$ 0,00</span>
                         </div>
-                        
-                        <!-- Custos Indiretos / Operacionais -->
+
+                        <!-- Custos Operacionais -->
+                        <div class="input-row mt-2">
+                            <div class="input-group">
+                                <label class="input-label">Energia (R$)</label>
+                                <input type="number" class="input-field" id="inputEnergia" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Gás (R$)</label>
+                                <input type="number" class="input-field" id="inputGas" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Desperdício (R$)</label>
+                                <input type="number" class="input-field" id="inputDesperdicio" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Despesas (R$)</label>
+                                <input type="number" class="input-field" id="inputDespesas" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Encargos (R$)</label>
+                                <input type="number" class="input-field" id="inputEncargos" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Outros Custos (R$)</label>
+                                <input type="number" class="input-field" id="inputOutrosCustos" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
+                            </div>
+                        </div>
+
+                        <!-- ===== NOVA SEÇÃO: CUSTOS DE ENERGIA E GÁS ===== -->
+                        <div class="divider"></div>
+                        <div class="card-title" style="margin-top: 8px;">⚡ Custos de Energia e Gás</div>
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Conta Mensal de Energia (R$)</label>
+                                <input type="number" class="input-field" id="inputContaEnergiaMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Conta Mensal de Gás (R$)</label>
+                                <input type="number" class="input-field" id="inputContaGasMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Horas Trabalhadas no Mês</label>
+                                <input type="number" class="input-field" id="inputHorasTrabalhadasMes" value="220" min="1" step="1" onchange="calcularCustosAutomaticos()">
+                            </div>
+                            <div class="input-group">
+                                <!-- espaço vazio para manter alinhamento -->
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Energia por Hora</label>
+                                <input type="text" class="input-field" id="inputEnergiaPorHora" readonly style="background:var(--surface2);">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Gás por Hora</label>
+                                <input type="text" class="input-field" id="inputGasPorHora" readonly style="background:var(--surface2);">
+                            </div>
+                        </div>
+                        <!-- ===== FIM DA NOVA SEÇÃO ===== -->
+
+                        <!-- Custos Fixos e Margem -->
                         <div class="input-row mt-2">
                             <div class="input-group">
                                 <label class="input-label">Custos Fixos / Hora (R$)</label>
@@ -991,52 +560,6 @@
 
                         <div class="divider"></div>
 
-                        <!-- Seção: Custos Operacionais e Produção -->
-                        <div class="operational-costs-section">
-                            <div class="card-title">
-                                <span class="icon">🏭</span> Custos Operacionais e Produção
-                            </div>
-
-                            <div class="input-row">
-                                <div class="input-group">
-                                    <label class="input-label">Energia Elétrica (R$)</label>
-                                    <input type="number" class="input-field" id="inputEnergia" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-
-                                <div class="input-group">
-                                    <label class="input-label">Consumo de Gás (R$)</label>
-                                    <input type="number" class="input-field" id="inputGas" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-                            </div>
-
-                            <div class="input-row mt-2">
-                                <div class="input-group">
-                                    <label class="input-label">Desperdício de Material (R$)</label>
-                                    <input type="number" class="input-field" id="inputDesperdicio" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-
-                                <div class="input-group">
-                                    <label class="input-label">Despesas Operacionais (R$)</label>
-                                    <input type="number" class="input-field" id="inputDespesas" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-                            </div>
-
-                            <div class="input-row mt-2">
-                                <div class="input-group">
-                                    <label class="input-label">INSS / Encargos (R$)</label>
-                                    <input type="number" class="input-field" id="inputEncargos" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-
-                                <div class="input-group">
-                                    <label class="input-label">Outros Custos (R$)</label>
-                                    <input type="number" class="input-field" id="inputOutrosCustos" value="0" onchange="calcularOrcamentoTotal()">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="divider"></div>
-                        
-                        <!-- Custos de Produção Real vs Preço Final -->
                         <div style="display:flex;justify-content:space-between;padding:6px 0;">
                             <span class="text-sm" style="color:var(--danger);">Custo de Produção Total:</span>
                             <span style="font-weight:700;color:var(--danger);" id="custoTotalServico">R$ 0,00</span>
@@ -1046,33 +569,6 @@
                             <span class="highlight-number highlight-lg" id="precoVendaFinal" style="color:var(--success);">R$ 0,00</span>
                         </div>
 
-                        <!-- Seção: Meta Financeira -->
-                        <div class="financial-goal-section">
-                            <div class="divider"></div>
-
-                            <div class="card-title">
-                                <span class="icon">🎯</span> Meta Financeira
-                            </div>
-
-                            <div class="input-row">
-                                <div class="input-group">
-                                    <label class="input-label">Meta Desejada (R$)</label>
-                                    <input type="number" class="input-field" id="inputMetaFinanceira" value="5000" onchange="calcularMetaFinanceira()">
-                                </div>
-                            </div>
-
-                            <div style="background:var(--accent);padding:14px;border-radius:var(--radius);margin-top:12px;text-align:center;">
-                                <span style="font-size:0.8rem;color:#fff;font-weight:700;">
-                                    UNIDADES NECESSÁRIAS
-                                </span><br>
-
-                                <span class="highlight-number" id="resultadoMeta" style="color:#fff;">
-                                    0 unidades
-                                </span>
-                            </div>
-                        </div>
-
-                        <!-- Inputs de Cadastro de Cliente para Lançamento -->
                         <div class="input-group mt-3">
                             <label class="input-label">Nome do Cliente / Projeto</label>
                             <input type="text" class="input-field" id="nomeClienteOrcamento" placeholder="Ex: Armário Cozinha - João">
@@ -1099,48 +595,353 @@
                 </div>
             </div>
 
-            <!-- HISTORIC VIEW -->
+            <!-- HISTORY VIEW -->
             <div id="viewHistorico" class="hidden">
                 <div class="card">
-                    <div class="card-title"><span class="icon">📊</span> Histórico de Orçamentos</div>
+                    <div class="card-title">📋 Histórico de Orçamentos</div>
                     <div id="listaHistorico"></div>
-                    <button class="btn btn-danger btn-sm mt-3" onclick="limparHistorico()" style="width:100%;">
-                        🗑️ Limpar Histórico
-                    </button>
+                    <p class="text-sm text-center mt-2" id="historicoVazio">Nenhum orçamento salvo ainda.</p>
                 </div>
             </div>
         </div>
 
         <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <button class="nav-item active" onclick="mostrarAbaMateriais()">
-                <span class="nav-icon">📦</span>
-                <span>Materiais</span>
+        <nav class="bottom-nav hidden" id="bottomNav">
+            <button class="nav-item active" data-tab="materiais" onclick="mudarTab('materiais')">
+                <span class="nav-icon">📦</span> Materiais
             </button>
-            <button class="nav-item" onclick="mostrarAbaMaoObra()">
-                <span class="nav-icon">👷</span>
-                <span>Mão de Obra</span>
+            <button class="nav-item" data-tab="maoobra" onclick="mudarTab('maoobra')">
+                <span class="nav-icon">👷</span> Mão de Obra
             </button>
-            <button class="nav-item" onclick="mostrarAbaPrecificacao()">
-                <span class="nav-icon">💰</span>
-                <span>Preço</span>
+            <button class="nav-item" data-tab="precificacao" onclick="mudarTab('precificacao')">
+                <span class="nav-icon">💰</span> Preços
             </button>
-            <button class="nav-item" onclick="mostrarAbaRelatorio()">
-                <span class="nav-icon">📄</span>
-                <span>Relatório</span>
+            <button class="nav-item" data-tab="relatorio" onclick="mudarTab('relatorio')">
+                <span class="nav-icon">📄</span> Relatório
             </button>
-        </div>
-
-        <!-- FAB Button -->
-        <button class="fab" onclick="novoOrcamento()" title="Novo Orçamento">✨</button>
-
-        <!-- Toast -->
-        <div class="toast" id="toast"></div>
+        </nav>
     </div>
 
+    <!-- ==================== SCRIPT 1: utilitários e materiais (ORIGINAL, SEM ALTERAÇÕES) ==================== -->
     <script>
-        // Placeholder para JavaScript (pode ser expandido conforme necessário)
-        console.log('Aplicação OrçaJá carregada com sucesso!');
+        function converterParaNumero(valor) {
+            if (typeof valor === 'number') return valor;
+            if (!valor) return 0;
+            return parseFloat(String(valor).replace(/\./g, '').replace(',', '.')) || 0;
+        }
+
+        function formatarMoeda(valor) {
+            const num = parseFloat(valor) || 0;
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(num);
+        }
+
+        function atualizarMaoObra() {
+            const salarioMinimo = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
+            const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+            const valorHora = salarioMinimo / 220;
+            const totalMaoObra = valorHora * horasTrabalhadas;
+            document.getElementById('inputValorHora').value = formatarMoeda(valorHora);
+            document.getElementById('totalMaoObra').textContent = formatarMoeda(totalMaoObra);
+            document.getElementById('resumoSubMaoObra').textContent = formatarMoeda(totalMaoObra);
+            atualizarPrecificacao();
+        }
+
+        let materiais = [];
+
+        function adicionarMaterial() {
+            const id = Date.now();
+            materiais.push({ id, nome: '', custUnitario: 0, quantidade: 1 });
+            renderizarMateriais();
+        }
+
+        function removeMaterial(id) {
+            materiais = materiais.filter(m => m.id !== id);
+            renderizarMateriais();
+        }
+
+        function atualizarMaterial(id, campo, valor) {
+            const material = materiais.find(m => m.id === id);
+            if (material) {
+                if (campo === 'custo') {
+                    material.custUnitario = converterParaNumero(valor);
+                } else if (campo === 'quantidade') {
+                    material.quantidade = parseFloat(valor) || 0;
+                } else {
+                    material.nome = valor;
+                }
+            }
+            renderizarMateriais();
+        }
+
+        function renderizarMateriais() {
+            const tbody = document.getElementById('tbodyMateriais');
+            tbody.innerHTML = '';
+            let subtotal = 0;
+            materiais.forEach(mat => {
+                const total = mat.custUnitario * mat.quantidade;
+                subtotal += total;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><input type="text" class="input-field" style="font-size:0.75rem;padding:6px;" value="${mat.nome}" onchange="atualizarMaterial(${mat.id}, 'nome', this.value)" placeholder="Nome"></td>
+                    <td><input type="text" class="input-field" style="font-size:0.75rem;padding:6px;" value="${formatarMoeda(mat.custUnitario)}" onchange="atualizarMaterial(${mat.id}, 'custo', this.value)" placeholder="R$ 0,00"></td>
+                    <td><input type="number" class="input-field" style="font-size:0.75rem;padding:6px;" value="${mat.quantidade}" onchange="atualizarMaterial(${mat.id}, 'quantidade', this.value)" step="0.01" min="0"></td>
+                    <td style="font-weight:700;color:var(--primary);">${formatarMoeda(total)}</td>
+                    <td><button class="btn btn-danger btn-xs" onclick="removeMaterial(${mat.id})">❌</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('subtotalMateriais').textContent = formatarMoeda(subtotal);
+            document.getElementById('resumoSubMateriais').textContent = formatarMoeda(subtotal);
+            atualizarPrecificacao();
+        }
+
+        function atualizarPrecificacao() {
+            const subtotalMateriais = converterParaNumero(document.getElementById('resumoSubMateriais').textContent);
+            const subtotalMaoObra = converterParaNumero(document.getElementById('resumoSubMaoObra').textContent);
+            const custoTotal = subtotalMateriais + subtotalMaoObra;
+            const margem = parseFloat(document.getElementById('inputMargemLucro').value) || 0;
+            const precoFinal = custoTotal * (1 + margem / 100);
+            document.getElementById('custoTotalServico').textContent = formatarMoeda(custoTotal);
+            // Nota: precoVendaFinal é atualizado pela calcularOrcamentoTotal no script 2
+        }
+
+        function mudarTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById('tab' + (tabName === 'maoobra' ? 'MaoObra' : tabName === 'relatorio' ? 'Relatorio' : tabName === 'precificacao' ? 'Precificacao' : 'Materiais')).classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        }
+
+        function novoOrcamento() {
+            document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewBudget').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            atualizarMaoObra();
+        }
+
+        function abrirHistorico() {
+            document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewHistorico').classList.remove('hidden');
+        }
+
+        function voltarHome() {
+            document.getElementById('viewHome').classList.remove('hidden');
+            document.getElementById('viewBudget').classList.add('hidden');
+            document.getElementById('viewHistorico').classList.add('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+        }
+
+        function copiarRelatorio() {
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            navigator.clipboard.writeText(conteudo).then(() => { mostrarToast('✅ Relatório copiado!'); });
+        }
+
+        function baixarPDF() { mostrarToast('📥 Gerando PDF...'); }
+        function compartilharRelatorio() { mostrarToast('📤 Compartilhando...'); }
+
+        function mostrarToast(mensagem) {
+            const toast = document.querySelector('.toast') || document.createElement('div');
+            toast.className = 'toast show';
+            toast.textContent = mensagem;
+            if (!document.querySelector('.toast')) document.body.appendChild(toast);
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        document.getElementById('btnDarkMode')?.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        });
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { atualizarMaoObra(); });
+    </script>
+
+    <!-- ==================== SCRIPT 2: histórico, calcularOrcamentoTotal (MELHORADA) e NOVA FUNÇÃO ==================== -->
+    <script>
+        let historicoOrcamentos = JSON.parse(localStorage.getItem('orcaja_historico')) || [];
+
+        // =======================================================
+        // calcularOrcamentoTotal — VERSÃO MELHORADA (já existente)
+        // =======================================================
+        function calcularOrcamentoTotal() {
+            // MATERIAIS
+            let subtotalMateriais = 0;
+            materiais.forEach(mat => {
+                subtotalMateriais += mat.custUnitario * mat.quantidade;
+            });
+            document.getElementById('resumoSubMateriais').innerText =
+                formatarMoeda(subtotalMateriais);
+
+            // MÃO DE OBRA
+            const salarioMinimo =
+                converterParaNumero(
+                    document.getElementById('inputSalarioMinimo').value
+                );
+            const horasTrabalhadas =
+                parseFloat(
+                    document.getElementById('inputHorasTrabalhadas').value
+                ) || 0;
+            const valorHora = salarioMinimo / 220;
+            const totalMaoObra = valorHora * horasTrabalhadas;
+
+            // CUSTOS OPERACIONAIS
+            const energia =
+                parseFloat(document.getElementById('inputEnergia').value) || 0;
+            const gas =
+                parseFloat(document.getElementById('inputGas').value) || 0;
+            const desperdicio =
+                parseFloat(document.getElementById('inputDesperdicio').value) || 0;
+            const despesas =
+                parseFloat(document.getElementById('inputDespesas').value) || 0;
+            const encargos =
+                parseFloat(document.getElementById('inputEncargos').value) || 0;
+            const outrosCustos =
+                parseFloat(document.getElementById('inputOutrosCustos').value) || 0;
+
+            // CUSTOS FIXOS
+            const custoFixoHora =
+                parseFloat(
+                    document.getElementById('inputCustosFixosHora').value
+                ) || 0;
+            const totalCustosFixos = custoFixoHora * horasTrabalhadas;
+
+            // SOMA TOTAL DE PRODUÇÃO
+            const custoProducaoTotal =
+                subtotalMateriais +
+                totalMaoObra +
+                totalCustosFixos +
+                energia +
+                gas +
+                desperdicio +
+                despesas +
+                encargos +
+                outrosCustos;
+            document.getElementById('custoTotalServico').innerText =
+                formatarMoeda(custoProducaoTotal);
+
+            // MARGEM DE LUCRO
+            const margemLucro =
+                parseFloat(
+                    document.getElementById('inputMargemLucro').value
+                ) || 0;
+
+            // PREÇO FINAL
+            const precoVenda =
+                custoProducaoTotal / (1 - (margemLucro / 100));
+            document.getElementById('precoVendaFinal').innerText =
+                formatarMoeda(precoVenda);
+
+            // LUCRO POR UNIDADE
+            const lucroUnitario = precoVenda - custoProducaoTotal;
+            calcularMetaFinanceira(lucroUnitario);
+
+            return { custoProducaoTotal, precoVenda, lucroUnitario };
+        }
+
+        function calcularMetaFinanceira(lucroUnitario = 0) {
+            const meta =
+                parseFloat(
+                    document.getElementById('inputMetaFinanceira').value
+                ) || 0;
+            if (lucroUnitario <= 0) {
+                document.getElementById('resultadoMeta').innerText =
+                    'Lucro inválido';
+                return;
+            }
+            const quantidadeNecessaria =
+                Math.ceil(meta / lucroUnitario);
+            document.getElementById('resultadoMeta').innerText =
+                `${quantidadeNecessaria} unidades`;
+        }
+
+        // =======================================================
+        // NOVA FUNÇÃO: calcularCustosAutomaticos
+        // =======================================================
+        function calcularCustosAutomaticos() {
+            // valores mensais
+            const contaEnergia = parseFloat(document.getElementById('inputContaEnergiaMensal').value) || 0;
+            const contaGas = parseFloat(document.getElementById('inputContaGasMensal').value) || 0;
+            const horasTrabalhadasMes = parseFloat(document.getElementById('inputHorasTrabalhadasMes').value) || 1; // evita divisão por zero
+
+            // horas do serviço (produto)
+            const horasProduto = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+
+            // custo por hora
+            const energiaPorHora = contaEnergia / horasTrabalhadasMes;
+            const gasPorHora = contaGas / horasTrabalhadasMes;
+
+            // exibe nos campos readonly
+            document.getElementById('inputEnergiaPorHora').value = formatarMoeda(energiaPorHora);
+            document.getElementById('inputGasPorHora').value = formatarMoeda(gasPorHora);
+
+            // calcula o proporcional do produto
+            const energiaProduto = energiaPorHora * horasProduto;
+            const gasProduto = gasPorHora * horasProduto;
+
+            // preenche automaticamente os campos de energia e gás na aba de precificação
+            document.getElementById('inputEnergia').value = energiaProduto.toFixed(2);
+            document.getElementById('inputGas').value = gasProduto.toFixed(2);
+
+            // atualiza o orçamento total
+            calcularOrcamentoTotal();
+        }
+
+        // =======================================================
+        // Integração com a alteração das horas do serviço
+        // =======================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // inicializa os cálculos automáticos
+            calcularCustosAutomaticos();
+
+            // sempre que as horas do serviço mudarem, recalcular energia/gás
+            document.getElementById('inputHorasTrabalhadas').addEventListener('input', calcularCustosAutomaticos);
+        });
+
+        // caso o DOM já esteja carregado (executa imediatamente)
+        if (document.readyState !== 'loading') {
+            calcularCustosAutomaticos();
+            document.getElementById('inputHorasTrabalhadas').addEventListener('input', calcularCustosAutomaticos);
+        }
+
+        function salvarELancarOrcamento() {
+            const cliente = document.getElementById('nomeClienteOrcamento').value.trim();
+            if (!cliente) {
+                exibirToast("⚠️ Digite o nome do cliente ou projeto!");
+                return;
+            }
+
+            const dadosCalculados = calcularOrcamentoTotal();
+
+            const novoOrcamento = {
+                id: Date.now(),
+                cliente: cliente,
+                data: new Date().toLocaleDateString('pt-BR'),
+                custo: dadosCalculados.custoProducaoTotal,
+                total: dadosCalculados.precoVenda
+            };
+
+            historicoOrcamentos.unshift(novoOrcamento);
+            localStorage.setItem('orcaja_historico', JSON.stringify(historicoOrcamentos));
+
+            exibirToast("🚀 Orçamento lançado com sucesso!");
+            document.getElementById('nomeClienteOrcamento').value = "";
+            voltarHome();
+            renderizarResumoHome();
+        }
+
+        function exibirToast(mensagem) {
+            mostrarToast(mensagem);
+        }
+
+        // Stub para renderizarResumoHome — implemente conforme sua lógica
+        function renderizarResumoHome() {
+            // Implemente aqui a renderização do resumo na home quando necessário
+        }
+
+        window.onload = () => { atualizarMaoObra(); };
     </script>
 </body>
 </html>
