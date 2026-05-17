@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#6366f1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -143,6 +143,7 @@
             transition: all var(--transition);
             color: var(--text);
             flex-shrink: 0;
+            min-width: 36px; min-height: 36px;
         }
         .btn-icon:hover { background: var(--primary-light); border-color: var(--primary); transform: scale(1.05); }
         .btn-icon:active { transform: scale(0.94); transition: 0.1s; }
@@ -216,19 +217,23 @@
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: flex; justify-content: space-around;
-            padding: 8px 6px 16px;
+            padding: 8px 2px 16px;
             z-index: 20;
             transition: all var(--transition);
             padding-bottom: max(16px, env(safe-area-inset-bottom));
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; gap: 3px;
-            cursor: pointer; padding: 8px 12px; border-radius: var(--radius);
+            cursor: pointer; padding: 6px 8px; border-radius: var(--radius);
             transition: all var(--transition);
-            color: var(--text3); font-size: 0.68rem; font-weight: 500;
-            border: none; background: transparent; min-width: 55px;
+            color: var(--text3); font-size: 0.65rem; font-weight: 500;
+            border: none; background: transparent; min-width: 48px;
             letter-spacing: -0.2px; position: relative;
             -webkit-user-select: none; user-select: none;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .nav-item.active { color: var(--primary); font-weight: 700; }
         .nav-item.active::before {
@@ -236,8 +241,13 @@
             width: 24px; height: 3px;
             border-radius: 0 0 4px 4px; background: var(--primary);
         }
-        .nav-icon { font-size: 1.3rem; transition: transform var(--transition); }
+        .nav-icon { font-size: 1.2rem; transition: transform var(--transition); }
         .nav-item:active .nav-icon { transform: scale(0.85); }
+
+        @media (max-width: 380px) {
+            .nav-item { font-size: 0.6rem; padding: 4px 5px; min-width: 42px; }
+            .nav-icon { font-size: 1.1rem; }
+        }
 
         .card {
             background: var(--surface);
@@ -248,6 +258,7 @@
             border: 1px solid var(--border);
             transition: all var(--transition);
             animation: fadeInUp 0.4s ease;
+            word-wrap: break-word;
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(16px); }
@@ -259,6 +270,7 @@
             display: flex; align-items: center; gap: 8px;
             transition: color var(--transition);
             -webkit-user-select: none; user-select: none;
+            flex-wrap: wrap;
         }
         .card-title .icon { font-size: 1.2rem; }
 
@@ -269,14 +281,15 @@
             border: none; transition: all var(--transition);
             letter-spacing: -0.2px; font-family: inherit; white-space: nowrap;
             -webkit-user-select: none; user-select: none;
+            min-height: 44px;
         }
         .btn:active { transform: scale(0.96); transition: 0.08s; }
         .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35); }
         .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45); }
         .btn-outline { background: var(--surface); color: var(--primary); border: 2px solid var(--primary); }
         .btn-outline:hover { background: var(--primary-light); }
-        .btn-sm { padding: 7px 14px; font-size: 0.78rem; border-radius: 8px; }
-        .btn-xs { padding: 5px 10px; font-size: 0.7rem; border-radius: 6px; font-weight: 600; }
+        .btn-sm { padding: 7px 14px; font-size: 0.78rem; border-radius: 8px; min-height: 36px; }
+        .btn-xs { padding: 5px 10px; font-size: 0.7rem; border-radius: 6px; font-weight: 600; min-height: 30px; }
         .btn-danger { background: var(--danger); color: #fff; }
         .btn-success { background: var(--success); color: #fff; }
         .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--text2); }
@@ -293,13 +306,18 @@
             font-size: 0.9rem; color: var(--text); font-family: inherit;
             transition: all var(--transition); outline: none;
             -webkit-user-select: text; user-select: text;
+            min-height: 44px;
         }
         .input-field:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); background: var(--surface); }
         .input-row { display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap; }
-        .input-row .input-group { flex: 1; min-width: 80px; margin-bottom: 0; }
+        .input-row .input-group { flex: 1; min-width: 100px; margin-bottom: 0; }
 
         .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -4px; padding: 0 4px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 420px; }
+        @media (max-width: 480px) {
+            table { min-width: auto; font-size: 0.7rem; }
+            table th, table td { padding: 6px 4px; }
+        }
         table th {
             background: var(--surface2); padding: 10px 8px; text-align: left;
             font-weight: 700; color: var(--text2); font-size: 0.7rem;
@@ -354,9 +372,20 @@
         .history-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
 
         #cardRelatorio { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        #conteudoRelatorio { font-size: 0.82rem; line-height: 1.6; color: var(--text); text-align: center; width: 100%; max-width: 420px; }
+        #conteudoRelatorio { font-size: 0.82rem; line-height: 1.6; color: var(--text); text-align: left; width: 100%; max-width: 420px; }
         #conteudoRelatorio table { width: auto !important; min-width: initial !important; margin: 8px auto; }
         #cardRelatorio .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; width: 100%; }
+
+        /* Ajustes mobile extras */
+        @media (max-width: 400px) {
+            .input-row { flex-direction: column; }
+            .input-row .input-group { min-width: 100%; }
+            .btn { font-size: 0.8rem; padding: 10px 16px; }
+            .card { padding: 14px 12px; }
+            .input-field { font-size: 0.8rem; padding: 10px 12px; }
+            .btn-sm { padding: 6px 10px; }
+            .btn-xs { padding: 4px 8px; }
+        }
     </style>
 </head>
 <body>
@@ -419,7 +448,7 @@
                                 <thead>
                                     <tr>
                                         <th>Material</th>
-                                        <th>Custo Unitário</th>
+                                        <th>Custo Unit.</th>
                                         <th>Qtd</th>
                                         <th>Total</th>
                                         <th></th>
@@ -436,7 +465,7 @@
                             </table>
                         </div>
                         <button class="btn btn-outline btn-sm mt-3" onclick="adicionarMaterial()" style="width:100%;">＋ Adicionar Material</button>
-                        <p class="text-sm mt-2">💡 Digite o valor de cada item utilizado. O sistema multiplica automaticamente o custo pela quantidade (aceita valores fracionados).</p>
+                        <p class="text-sm mt-2">💡 Informe cada material com seu custo unitário e quantidade.</p>
                     </div>
                 </div>
 
@@ -464,29 +493,49 @@
                     </div>
                 </div>
 
-                <!-- Aba Precificação -->
-                <div id="tabPrecificacao" class="tab-content hidden">
+                <!-- Aba Despesa -->
+                <div id="tabDespesa" class="tab-content hidden">
                     <div class="card">
-                        <div class="card-title"><span class="icon">💰</span> Precificação e Orçamento</div>
+                        <div class="card-title"><span class="icon">💸</span> Despesas e Custos Operacionais</div>
 
-                        <!-- Resumo de Custos -->
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span class="text-sm">Subtotal Materiais:</span>
-                            <span style="font-weight:700;" id="resumoSubMateriais">R$ 0,00</span>
-                        </div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span class="text-sm">Subtotal Mão de Obra:</span>
-                            <span style="font-weight:700;" id="resumoSubMaoObra">R$ 0,00</span>
-                        </div>
-
-                        <!-- Custos Operacionais -->
-                        <div class="input-row mt-2">
+                        <!-- Energia e Gás automáticos -->
+                        <div class="input-row">
                             <div class="input-group">
-                                <label class="input-label">Energia (R$)</label>
+                                <label class="input-label">Conta Mensal de Energia (R$)</label>
+                                <input type="number" class="input-field" id="inputContaEnergiaMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Conta Mensal de Gás (R$)</label>
+                                <input type="number" class="input-field" id="inputContaGasMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
+                            </div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Horas Trabalhadas no Mês</label>
+                                <input type="number" class="input-field" id="inputHorasTrabalhadasMes" value="220" min="1" step="1" onchange="calcularCustosAutomaticos()">
+                            </div>
+                            <div class="input-group"></div>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Energia por Hora</label>
+                                <input type="text" class="input-field" id="inputEnergiaPorHora" readonly style="background:var(--surface2);">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Gás por Hora</label>
+                                <input type="text" class="input-field" id="inputGasPorHora" readonly style="background:var(--surface2);">
+                            </div>
+                        </div>
+                        <div class="divider"></div>
+
+                        <!-- Outros custos operacionais -->
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="input-label">Energia do Produto (R$)</label>
                                 <input type="number" class="input-field" id="inputEnergia" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
                             </div>
                             <div class="input-group">
-                                <label class="input-label">Gás (R$)</label>
+                                <label class="input-label">Gás do Produto (R$)</label>
                                 <input type="number" class="input-field" id="inputGas" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
                             </div>
                         </div>
@@ -510,44 +559,7 @@
                                 <input type="number" class="input-field" id="inputOutrosCustos" value="0" step="0.01" onchange="calcularOrcamentoTotal()">
                             </div>
                         </div>
-
-                        <!-- ===== NOVA SEÇÃO: CUSTOS DE ENERGIA E GÁS ===== -->
-                        <div class="divider"></div>
-                        <div class="card-title" style="margin-top: 8px;">⚡ Custos de Energia e Gás</div>
-
                         <div class="input-row">
-                            <div class="input-group">
-                                <label class="input-label">Conta Mensal de Energia (R$)</label>
-                                <input type="number" class="input-field" id="inputContaEnergiaMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Conta Mensal de Gás (R$)</label>
-                                <input type="number" class="input-field" id="inputContaGasMensal" value="0" step="0.01" onchange="calcularCustosAutomaticos()">
-                            </div>
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="input-label">Horas Trabalhadas no Mês</label>
-                                <input type="number" class="input-field" id="inputHorasTrabalhadasMes" value="220" min="1" step="1" onchange="calcularCustosAutomaticos()">
-                            </div>
-                            <div class="input-group">
-                                <!-- espaço vazio para manter alinhamento -->
-                            </div>
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="input-label">Energia por Hora</label>
-                                <input type="text" class="input-field" id="inputEnergiaPorHora" readonly style="background:var(--surface2);">
-                            </div>
-                            <div class="input-group">
-                                <label class="input-label">Gás por Hora</label>
-                                <input type="text" class="input-field" id="inputGasPorHora" readonly style="background:var(--surface2);">
-                            </div>
-                        </div>
-                        <!-- ===== FIM DA NOVA SEÇÃO ===== -->
-
-                        <!-- Custos Fixos e Margem -->
-                        <div class="input-row mt-2">
                             <div class="input-group">
                                 <label class="input-label">Custos Fixos / Hora (R$)</label>
                                 <input type="number" class="input-field" id="inputCustosFixosHora" value="5.00" onchange="calcularOrcamentoTotal()">
@@ -557,9 +569,28 @@
                                 <input type="number" class="input-field" id="inputMargemLucro" value="30" onchange="calcularOrcamentoTotal()">
                             </div>
                         </div>
+                        <p class="text-sm mt-2">💡 A energia e o gás do produto são calculados automaticamente conforme as horas do serviço.</p>
+                    </div>
+                </div>
 
+                <!-- Aba Precificação -->
+                <div id="tabPrecificacao" class="tab-content hidden">
+                    <div class="card">
+                        <div class="card-title"><span class="icon">💰</span> Resumo e Precificação</div>
+
+                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                            <span class="text-sm">Subtotal Materiais:</span>
+                            <span style="font-weight:700;" id="resumoSubMateriais">R$ 0,00</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                            <span class="text-sm">Subtotal Mão de Obra:</span>
+                            <span style="font-weight:700;" id="resumoSubMaoObra">R$ 0,00</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                            <span class="text-sm">Total de Despesas:</span>
+                            <span style="font-weight:700;" id="resumoDespesas">R$ 0,00</span>
+                        </div>
                         <div class="divider"></div>
-
                         <div style="display:flex;justify-content:space-between;padding:6px 0;">
                             <span class="text-sm" style="color:var(--danger);">Custo de Produção Total:</span>
                             <span style="font-weight:700;color:var(--danger);" id="custoTotalServico">R$ 0,00</span>
@@ -587,7 +618,7 @@
                         <div id="conteudoRelatorio" style="font-size:0.82rem;line-height:1.6;color:var(--text);"></div>
                         <div class="divider"></div>
                         <div class="actions">
-                            <button class="btn btn-primary btn-sm" onclick="copiarRelatorio()">📋 Copiar Relatório</button>
+                            <button class="btn btn-primary btn-sm" onclick="copiarRelatorio()">📋 Copiar</button>
                             <button class="btn btn-success btn-sm" onclick="baixarPDF()">📥 Baixar PDF</button>
                             <button class="btn btn-outline btn-sm" onclick="compartilharRelatorio()">📤 Compartilhar</button>
                         </div>
@@ -611,7 +642,10 @@
                 <span class="nav-icon">📦</span> Materiais
             </button>
             <button class="nav-item" data-tab="maoobra" onclick="mudarTab('maoobra')">
-                <span class="nav-icon">👷</span> Mão de Obra
+                <span class="nav-icon">👷</span> Mão Obra
+            </button>
+            <button class="nav-item" data-tab="despesa" onclick="mudarTab('despesa')">
+                <span class="nav-icon">💸</span> Despesa
             </button>
             <button class="nav-item" data-tab="precificacao" onclick="mudarTab('precificacao')">
                 <span class="nav-icon">💰</span> Preços
@@ -622,8 +656,9 @@
         </nav>
     </div>
 
-    <!-- ==================== SCRIPT 1: utilitários e materiais (ORIGINAL, SEM ALTERAÇÕES) ==================== -->
+    <!-- ==================== SCRIPTS ==================== -->
     <script>
+        // ========== FUNÇÕES UTILITÁRIAS ==========
         function converterParaNumero(valor) {
             if (typeof valor === 'number') return valor;
             if (!valor) return 0;
@@ -635,17 +670,7 @@
             return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(num);
         }
 
-        function atualizarMaoObra() {
-            const salarioMinimo = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
-            const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
-            const valorHora = salarioMinimo / 220;
-            const totalMaoObra = valorHora * horasTrabalhadas;
-            document.getElementById('inputValorHora').value = formatarMoeda(valorHora);
-            document.getElementById('totalMaoObra').textContent = formatarMoeda(totalMaoObra);
-            document.getElementById('resumoSubMaoObra').textContent = formatarMoeda(totalMaoObra);
-            atualizarPrecificacao();
-        }
-
+        // ========== GERENCIAMENTO DE MATERIAIS ==========
         let materiais = [];
 
         function adicionarMaterial() {
@@ -692,36 +717,121 @@
             });
             document.getElementById('subtotalMateriais').textContent = formatarMoeda(subtotal);
             document.getElementById('resumoSubMateriais').textContent = formatarMoeda(subtotal);
-            atualizarPrecificacao();
+            calcularOrcamentoTotal();
         }
 
-        function atualizarPrecificacao() {
-            const subtotalMateriais = converterParaNumero(document.getElementById('resumoSubMateriais').textContent);
-            const subtotalMaoObra = converterParaNumero(document.getElementById('resumoSubMaoObra').textContent);
-            const custoTotal = subtotalMateriais + subtotalMaoObra;
-            const margem = parseFloat(document.getElementById('inputMargemLucro').value) || 0;
-            const precoFinal = custoTotal * (1 + margem / 100);
-            document.getElementById('custoTotalServico').textContent = formatarMoeda(custoTotal);
-            // Nota: precoVendaFinal é atualizado pela calcularOrcamentoTotal no script 2
+        // ========== CÁLCULO DE MÃO DE OBRA ==========
+        function atualizarMaoObra() {
+            const salarioMinimo = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
+            const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+            const valorHora = salarioMinimo / 220;
+            const totalMaoObra = valorHora * horasTrabalhadas;
+            document.getElementById('inputValorHora').value = formatarMoeda(valorHora);
+            document.getElementById('totalMaoObra').textContent = formatarMoeda(totalMaoObra);
+            document.getElementById('resumoSubMaoObra').textContent = formatarMoeda(totalMaoObra);
+            calcularOrcamentoTotal();
         }
 
+        // ========== CUSTOS AUTOMÁTICOS DE ENERGIA E GÁS ==========
+        function calcularCustosAutomaticos() {
+            const contaEnergia = parseFloat(document.getElementById('inputContaEnergiaMensal').value) || 0;
+            const contaGas = parseFloat(document.getElementById('inputContaGasMensal').value) || 0;
+            const horasMes = Math.max(1, parseFloat(document.getElementById('inputHorasTrabalhadasMes').value) || 1);
+            const horasProduto = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+
+            const energiaPorHora = contaEnergia / horasMes;
+            const gasPorHora = contaGas / horasMes;
+
+            document.getElementById('inputEnergiaPorHora').value = formatarMoeda(energiaPorHora);
+            document.getElementById('inputGasPorHora').value = formatarMoeda(gasPorHora);
+
+            document.getElementById('inputEnergia').value = (energiaPorHora * horasProduto).toFixed(2);
+            document.getElementById('inputGas').value = (gasPorHora * horasProduto).toFixed(2);
+
+            calcularOrcamentoTotal();
+        }
+
+        // ========== CÁLCULO PRINCIPAL DO ORÇAMENTO ==========
+        function calcularOrcamentoTotal() {
+            // Subtotal materiais
+            let subtotalMateriais = 0;
+            materiais.forEach(mat => { subtotalMateriais += mat.custUnitario * mat.quantidade; });
+            document.getElementById('resumoSubMateriais').textContent = formatarMoeda(subtotalMateriais);
+
+            // Mão de obra
+            const salarioMinimo = converterParaNumero(document.getElementById('inputSalarioMinimo').value);
+            const horasTrabalhadas = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
+            const valorHora = salarioMinimo / 220;
+            const totalMaoObra = valorHora * horasTrabalhadas;
+            document.getElementById('resumoSubMaoObra').textContent = formatarMoeda(totalMaoObra);
+
+            // Despesas operacionais
+            const energia = parseFloat(document.getElementById('inputEnergia').value) || 0;
+            const gas = parseFloat(document.getElementById('inputGas').value) || 0;
+            const desperdicio = parseFloat(document.getElementById('inputDesperdicio').value) || 0;
+            const despesas = parseFloat(document.getElementById('inputDespesas').value) || 0;
+            const encargos = parseFloat(document.getElementById('inputEncargos').value) || 0;
+            const outrosCustos = parseFloat(document.getElementById('inputOutrosCustos').value) || 0;
+            const custoFixoHora = parseFloat(document.getElementById('inputCustosFixosHora').value) || 0;
+            const totalCustosFixos = custoFixoHora * horasTrabalhadas;
+
+            const totalDespesas = energia + gas + desperdicio + despesas + encargos + outrosCustos + totalCustosFixos;
+            document.getElementById('resumoDespesas').textContent = formatarMoeda(totalDespesas);
+
+            // Custo total de produção
+            const custoProducaoTotal = subtotalMateriais + totalMaoObra + totalDespesas;
+            document.getElementById('custoTotalServico').textContent = formatarMoeda(custoProducaoTotal);
+
+            // Margem de lucro e preço final
+            const margemLucro = Math.max(0, parseFloat(document.getElementById('inputMargemLucro').value) || 0);
+            let precoVenda = custoProducaoTotal;
+            if (margemLucro < 100) {
+                precoVenda = custoProducaoTotal / (1 - (margemLucro / 100));
+            } else {
+                precoVenda = custoProducaoTotal * (1 + margemLucro / 100);
+            }
+            document.getElementById('precoVendaFinal').textContent = formatarMoeda(precoVenda);
+
+            return { custoProducaoTotal, precoVenda };
+        }
+
+        // ========== NAVEGAÇÃO ENTRE ABAS ==========
         function mudarTab(tabName) {
+            const map = {
+                materiais: 'tabMateriais',
+                maoobra: 'tabMaoObra',
+                despesa: 'tabDespesa',
+                precificacao: 'tabPrecificacao',
+                relatorio: 'tabRelatorio'
+            };
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.getElementById('tab' + (tabName === 'maoobra' ? 'MaoObra' : tabName === 'relatorio' ? 'Relatorio' : tabName === 'precificacao' ? 'Precificacao' : 'Materiais')).classList.remove('hidden');
+            const target = document.getElementById(map[tabName]);
+            if (target) target.classList.remove('hidden');
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            const navItem = document.querySelector(`[data-tab="${tabName}"]`);
+            if (navItem) navItem.classList.add('active');
+
+            // Atualizar relatório ao acessar a aba
+            if (tabName === 'relatorio') gerarRelatorio();
         }
 
+        // ========== NAVEGAÇÃO PRINCIPAL ==========
         function novoOrcamento() {
             document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewHistorico').classList.add('hidden');
             document.getElementById('viewBudget').classList.remove('hidden');
             document.getElementById('bottomNav').classList.remove('hidden');
             atualizarMaoObra();
+            calcularCustosAutomaticos();
+            mudarTab('materiais');
         }
 
         function abrirHistorico() {
             document.getElementById('viewHome').classList.add('hidden');
+            document.getElementById('viewBudget').classList.add('hidden');
             document.getElementById('viewHistorico').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            renderizarHistorico();
         }
 
         function voltarHome() {
@@ -731,217 +841,179 @@
             document.getElementById('bottomNav').classList.add('hidden');
         }
 
-        function copiarRelatorio() {
-            const conteudo = document.getElementById('conteudoRelatorio').innerText;
-            navigator.clipboard.writeText(conteudo).then(() => { mostrarToast('✅ Relatório copiado!'); });
-        }
+        // ========== RELATÓRIO ==========
+        function gerarRelatorio() {
+            const dados = calcularOrcamentoTotal();
+            const nome = document.getElementById('nomeClienteOrcamento').value.trim() || 'Não informado';
+            const data = new Date().toLocaleDateString('pt-BR');
 
-        function baixarPDF() { mostrarToast('📥 Gerando PDF...'); }
-        function compartilharRelatorio() { mostrarToast('📤 Compartilhando...'); }
-
-        function mostrarToast(mensagem) {
-            const toast = document.querySelector('.toast') || document.createElement('div');
-            toast.className = 'toast show';
-            toast.textContent = mensagem;
-            if (!document.querySelector('.toast')) document.body.appendChild(toast);
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        document.getElementById('btnDarkMode')?.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
-        });
-
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.documentElement.classList.add('dark');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => { atualizarMaoObra(); });
-    </script>
-
-    <!-- ==================== SCRIPT 2: histórico, calcularOrcamentoTotal (MELHORADA) e NOVA FUNÇÃO ==================== -->
-    <script>
-        let historicoOrcamentos = JSON.parse(localStorage.getItem('orcaja_historico')) || [];
-
-        // =======================================================
-        // calcularOrcamentoTotal — VERSÃO MELHORADA (já existente)
-        // =======================================================
-        function calcularOrcamentoTotal() {
-            // MATERIAIS
-            let subtotalMateriais = 0;
-            materiais.forEach(mat => {
-                subtotalMateriais += mat.custUnitario * mat.quantidade;
+            let materiaisHtml = '';
+            materiais.forEach(m => {
+                materiaisHtml += `<tr><td>${m.nome || '-'}</td><td>${formatarMoeda(m.custUnitario)}</td><td>${m.quantidade}</td><td>${formatarMoeda(m.custUnitario * m.quantidade)}</td></tr>`;
             });
-            document.getElementById('resumoSubMateriais').innerText =
-                formatarMoeda(subtotalMateriais);
 
-            // MÃO DE OBRA
-            const salarioMinimo =
-                converterParaNumero(
-                    document.getElementById('inputSalarioMinimo').value
-                );
-            const horasTrabalhadas =
-                parseFloat(
-                    document.getElementById('inputHorasTrabalhadas').value
-                ) || 0;
-            const valorHora = salarioMinimo / 220;
-            const totalMaoObra = valorHora * horasTrabalhadas;
+            const despesasTotal = converterParaNumero(document.getElementById('resumoDespesas').textContent);
 
-            // CUSTOS OPERACIONAIS
-            const energia =
-                parseFloat(document.getElementById('inputEnergia').value) || 0;
-            const gas =
-                parseFloat(document.getElementById('inputGas').value) || 0;
-            const desperdicio =
-                parseFloat(document.getElementById('inputDesperdicio').value) || 0;
-            const despesas =
-                parseFloat(document.getElementById('inputDespesas').value) || 0;
-            const encargos =
-                parseFloat(document.getElementById('inputEncargos').value) || 0;
-            const outrosCustos =
-                parseFloat(document.getElementById('inputOutrosCustos').value) || 0;
-
-            // CUSTOS FIXOS
-            const custoFixoHora =
-                parseFloat(
-                    document.getElementById('inputCustosFixosHora').value
-                ) || 0;
-            const totalCustosFixos = custoFixoHora * horasTrabalhadas;
-
-            // SOMA TOTAL DE PRODUÇÃO
-            const custoProducaoTotal =
-                subtotalMateriais +
-                totalMaoObra +
-                totalCustosFixos +
-                energia +
-                gas +
-                desperdicio +
-                despesas +
-                encargos +
-                outrosCustos;
-            document.getElementById('custoTotalServico').innerText =
-                formatarMoeda(custoProducaoTotal);
-
-            // MARGEM DE LUCRO
-            const margemLucro =
-                parseFloat(
-                    document.getElementById('inputMargemLucro').value
-                ) || 0;
-
-            // PREÇO FINAL
-            const precoVenda =
-                custoProducaoTotal / (1 - (margemLucro / 100));
-            document.getElementById('precoVendaFinal').innerText =
-                formatarMoeda(precoVenda);
-
-            // LUCRO POR UNIDADE
-            const lucroUnitario = precoVenda - custoProducaoTotal;
-            calcularMetaFinanceira(lucroUnitario);
-
-            return { custoProducaoTotal, precoVenda, lucroUnitario };
+            const html = `
+                <div style="text-align:left;">
+                    <strong>📋 Orçamento:</strong> ${nome}<br>
+                    <strong>📅 Data:</strong> ${data}<br><br>
+                    <strong>📦 Materiais:</strong>
+                    <table style="width:100%;font-size:0.75rem;">
+                        <tr><th>Item</th><th>Custo</th><th>Qtd</th><th>Total</th></tr>
+                        ${materiaisHtml || '<tr><td colspan="4">Nenhum material</td></tr>'}
+                    </table>
+                    <br>
+                    <strong>👷 Mão de Obra:</strong> ${document.getElementById('resumoSubMaoObra').textContent}<br>
+                    <strong>💸 Despesas:</strong> ${document.getElementById('resumoDespesas').textContent}<br>
+                    <strong>💲 Custo Total:</strong> ${document.getElementById('custoTotalServico').textContent}<br>
+                    <strong>🏷️ Preço Final:</strong> ${document.getElementById('precoVendaFinal').textContent}
+                </div>
+            `;
+            document.getElementById('conteudoRelatorio').innerHTML = html;
         }
 
-        function calcularMetaFinanceira(lucroUnitario = 0) {
-            const meta =
-                parseFloat(
-                    document.getElementById('inputMetaFinanceira').value
-                ) || 0;
-            if (lucroUnitario <= 0) {
-                document.getElementById('resultadoMeta').innerText =
-                    'Lucro inválido';
-                return;
+        function copiarRelatorio() {
+            gerarRelatorio();
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            navigator.clipboard.writeText(conteudo).then(() => mostrarToast('✅ Relatório copiado!'))
+                .catch(() => mostrarToast('❌ Erro ao copiar.'));
+        }
+
+        function baixarPDF() {
+            gerarRelatorio();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+            const conteudo = document.getElementById('conteudoRelatorio').innerText;
+            const linhas = conteudo.split('\n');
+            let y = 20;
+            doc.setFontSize(12);
+            doc.text('OrçaJá - Relatório de Orçamento', 14, y);
+            y += 10;
+            doc.setFontSize(10);
+            linhas.forEach(linha => {
+                if (y > 280) { doc.addPage(); y = 20; }
+                doc.text(linha, 14, y);
+                y += 6;
+            });
+            doc.save('orcamento.pdf');
+            mostrarToast('📥 PDF baixado!');
+        }
+
+        function compartilharRelatorio() {
+            gerarRelatorio();
+            const texto = document.getElementById('conteudoRelatorio').innerText;
+            if (navigator.share) {
+                navigator.share({ title: 'Orçamento OrçaJá', text: texto }).catch(() => {});
+            } else {
+                const url = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+                window.open(url, '_blank');
             }
-            const quantidadeNecessaria =
-                Math.ceil(meta / lucroUnitario);
-            document.getElementById('resultadoMeta').innerText =
-                `${quantidadeNecessaria} unidades`;
         }
 
-        // =======================================================
-        // NOVA FUNÇÃO: calcularCustosAutomaticos
-        // =======================================================
-        function calcularCustosAutomaticos() {
-            // valores mensais
-            const contaEnergia = parseFloat(document.getElementById('inputContaEnergiaMensal').value) || 0;
-            const contaGas = parseFloat(document.getElementById('inputContaGasMensal').value) || 0;
-            const horasTrabalhadasMes = parseFloat(document.getElementById('inputHorasTrabalhadasMes').value) || 1; // evita divisão por zero
-
-            // horas do serviço (produto)
-            const horasProduto = parseFloat(document.getElementById('inputHorasTrabalhadas').value) || 0;
-
-            // custo por hora
-            const energiaPorHora = contaEnergia / horasTrabalhadasMes;
-            const gasPorHora = contaGas / horasTrabalhadasMes;
-
-            // exibe nos campos readonly
-            document.getElementById('inputEnergiaPorHora').value = formatarMoeda(energiaPorHora);
-            document.getElementById('inputGasPorHora').value = formatarMoeda(gasPorHora);
-
-            // calcula o proporcional do produto
-            const energiaProduto = energiaPorHora * horasProduto;
-            const gasProduto = gasPorHora * horasProduto;
-
-            // preenche automaticamente os campos de energia e gás na aba de precificação
-            document.getElementById('inputEnergia').value = energiaProduto.toFixed(2);
-            document.getElementById('inputGas').value = gasProduto.toFixed(2);
-
-            // atualiza o orçamento total
-            calcularOrcamentoTotal();
-        }
-
-        // =======================================================
-        // Integração com a alteração das horas do serviço
-        // =======================================================
-        document.addEventListener('DOMContentLoaded', () => {
-            // inicializa os cálculos automáticos
-            calcularCustosAutomaticos();
-
-            // sempre que as horas do serviço mudarem, recalcular energia/gás
-            document.getElementById('inputHorasTrabalhadas').addEventListener('input', calcularCustosAutomaticos);
-        });
-
-        // caso o DOM já esteja carregado (executa imediatamente)
-        if (document.readyState !== 'loading') {
-            calcularCustosAutomaticos();
-            document.getElementById('inputHorasTrabalhadas').addEventListener('input', calcularCustosAutomaticos);
-        }
+        // ========== HISTÓRICO ==========
+        let historicoOrcamentos = JSON.parse(localStorage.getItem('orcaja_historico')) || [];
 
         function salvarELancarOrcamento() {
             const cliente = document.getElementById('nomeClienteOrcamento').value.trim();
             if (!cliente) {
-                exibirToast("⚠️ Digite o nome do cliente ou projeto!");
+                mostrarToast("⚠️ Digite o nome do cliente ou projeto!");
                 return;
             }
-
-            const dadosCalculados = calcularOrcamentoTotal();
-
-            const novoOrcamento = {
+            const dados = calcularOrcamentoTotal();
+            const novo = {
                 id: Date.now(),
-                cliente: cliente,
+                cliente,
                 data: new Date().toLocaleDateString('pt-BR'),
-                custo: dadosCalculados.custoProducaoTotal,
-                total: dadosCalculados.precoVenda
+                custo: dados.custoProducaoTotal,
+                total: dados.precoVenda
             };
-
-            historicoOrcamentos.unshift(novoOrcamento);
+            historicoOrcamentos.unshift(novo);
             localStorage.setItem('orcaja_historico', JSON.stringify(historicoOrcamentos));
-
-            exibirToast("🚀 Orçamento lançado com sucesso!");
+            mostrarToast("🚀 Orçamento lançado com sucesso!");
             document.getElementById('nomeClienteOrcamento').value = "";
             voltarHome();
             renderizarResumoHome();
         }
 
-        function exibirToast(mensagem) {
-            mostrarToast(mensagem);
+        function renderizarHistorico() {
+            const container = document.getElementById('listaHistorico');
+            const vazio = document.getElementById('historicoVazio');
+            if (!container) return;
+            container.innerHTML = '';
+            if (historicoOrcamentos.length === 0) {
+                vazio?.classList.remove('hidden');
+                return;
+            }
+            vazio?.classList.add('hidden');
+            historicoOrcamentos.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card history-item';
+                card.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;">
+                        <strong>${item.cliente}</strong>
+                        <span class="text-sm">${item.data}</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:6px;">
+                        <span>Custo: ${formatarMoeda(item.custo)}</span>
+                        <span style="color:var(--success);font-weight:700;">Total: ${formatarMoeda(item.total)}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
-        // Stub para renderizarResumoHome — implemente conforme sua lógica
         function renderizarResumoHome() {
-            // Implemente aqui a renderização do resumo na home quando necessário
+            const resumoCard = document.getElementById('resumoHome');
+            const resumoConteudo = document.getElementById('resumoConteudo');
+            if (historicoOrcamentos.length === 0) {
+                resumoCard.classList.add('hidden');
+                return;
+            }
+            resumoCard.classList.remove('hidden');
+            const ultimo = historicoOrcamentos[0];
+            resumoConteudo.innerHTML = `<p>Último: <strong>${ultimo.cliente}</strong> - ${formatarMoeda(ultimo.total)} (${ultimo.data})</p>`;
         }
 
-        window.onload = () => { atualizarMaoObra(); };
+        // ========== TOAST ==========
+        function mostrarToast(mensagem) {
+            let toast = document.querySelector('.toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'toast';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = mensagem;
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ========== DARK MODE ==========
+        document.getElementById('btnDarkMode')?.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        });
+        if (localStorage.getItem('darkMode') === 'true') document.documentElement.classList.add('dark');
+
+        // ========== INICIALIZAÇÃO ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarMaoObra();
+            calcularCustosAutomaticos();
+            // Evento extra para horas do serviço
+            document.getElementById('inputHorasTrabalhadas').addEventListener('input', () => {
+                atualizarMaoObra();
+                calcularCustosAutomaticos();
+            });
+            renderizarResumoHome();
+        });
+
+        window.onload = () => {
+            if (document.readyState === 'complete') {
+                atualizarMaoObra();
+                calcularCustosAutomaticos();
+            }
+        };
     </script>
 </body>
 </html>
