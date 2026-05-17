@@ -826,6 +826,20 @@
             margin-bottom: 8px;
             font-size: 0.8rem;
         }
+
+        /* Seção de meta financeira */
+        .financial-goal-section {
+            background: var(--accent-light);
+            padding: 12px;
+            border-radius: var(--radius);
+            margin: 8px 0;
+            border-left: 3px solid var(--accent);
+        }
+
+        .financial-goal-section .card-title {
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -1030,6 +1044,32 @@
                         <div class="text-center mt-3" style="background:var(--success-light);padding:16px;border-radius:var(--radius);">
                             <span style="font-size:0.85rem;color:var(--success);font-weight:700;">SUGESTÃO DE PREÇO DE VENDA</span><br>
                             <span class="highlight-number highlight-lg" id="precoVendaFinal" style="color:var(--success);">R$ 0,00</span>
+                        </div>
+
+                        <!-- Seção: Meta Financeira -->
+                        <div class="financial-goal-section">
+                            <div class="divider"></div>
+
+                            <div class="card-title">
+                                <span class="icon">🎯</span> Meta Financeira
+                            </div>
+
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label class="input-label">Meta Desejada (R$)</label>
+                                    <input type="number" class="input-field" id="inputMetaFinanceira" value="5000" onchange="calcularMetaFinanceira()">
+                                </div>
+                            </div>
+
+                            <div style="background:var(--accent);padding:14px;border-radius:var(--radius);margin-top:12px;text-align:center;">
+                                <span style="font-size:0.8rem;color:#fff;font-weight:700;">
+                                    UNIDADES NECESSÁRIAS
+                                </span><br>
+
+                                <span class="highlight-number" id="resultadoMeta" style="color:#fff;">
+                                    0 unidades
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Inputs de Cadastro de Cliente para Lançamento -->
